@@ -9,15 +9,15 @@ class AllegroItem {
 
     @PrimaryKey
     val uid:Int
-    
+
     @ColumnInfo(name = "item_name")
-    var itemName:String
+    var itemName:String?
 
     @ColumnInfo(name="price")
     var itemPrice:Int
 
     @ColumnInfo(name="url")
-    var itemURL:String
+    var itemURL:String?
 
     constructor(uid: Int, itemName: String, itemPrice: Int, itemURL: String) {
         this.uid = uid
