@@ -21,6 +21,7 @@ import com.example.observer.db.AppDatabase
 import com.example.observer.presenter.IOnInternetPresenter
 import com.example.observer.presenter.OnInternetPresenter
 import com.example.observer.view.IOnInternetView
+import es.dmoral.toasty.Toasty
 
 
 class MainActivity : AppCompatActivity(),IOnInternetView {
@@ -92,8 +93,12 @@ class MainActivity : AppCompatActivity(),IOnInternetView {
 
     }
 
-    override fun onPriceChanged(item_name: String,new_price:Float) {
+    override fun onPriceChanged(item_name: String,new_price:Float,uid:Int) {
         //notify user
+    }
+
+    override fun onError(msg: String) {
+        Toasty.error(this,msg,Toasty.LENGTH_SHORT).show()
     }
 
 }

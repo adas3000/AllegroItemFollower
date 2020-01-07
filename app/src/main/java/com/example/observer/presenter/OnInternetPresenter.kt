@@ -2,10 +2,12 @@ package com.example.observer.presenter
 
 import android.util.Log
 import com.example.observer.db.AppDatabase
+import com.example.observer.enums.AllegroDivInstance
 import com.example.observer.model.AllegroItem
 import com.example.observer.util.IDocumentObserver
 import com.example.observer.util.IItemListObserver
 import com.example.observer.util.ItemProxy
+import com.example.observer.util.textToFloat
 import com.example.observer.view.IOnInternetView
 import io.reactivex.Observable
 import io.reactivex.Observer
@@ -15,9 +17,10 @@ import io.reactivex.schedulers.Schedulers
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import java.io.IOException
+import java.lang.NumberFormatException
 import java.lang.RuntimeException
 
-class OnInternetPresenter : IOnInternetPresenter,IItemListPresenter,ItemProxy,IDocumentObserver,IItemListObserver {
+class OnInternetPresenter : IOnInternetPresenter,IItemListPresenter,ItemProxy,IItemListObserver {
 
     val onInternetView:IOnInternetView
     private val TAG="OnInternetPresenter"
@@ -34,12 +37,19 @@ class OnInternetPresenter : IOnInternetPresenter,IItemListPresenter,ItemProxy,ID
     }
 
     override fun onAvailable(db: AppDatabase) {
-
+        onGetAllItems(db)
         //1.findAll
         //2.checkAll using Jsoup if price is different from current notify
     }
 
     override fun doCheck(itemList: List<AllegroItem>) {
+
+        for(item:AllegroItem in itemList){
+            getJsoupProxy(item.itemURL.toString())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(getDocumentObserver(item))
+        }
 
     }
 
@@ -54,7 +64,29 @@ class OnInternetPresenter : IOnInternetPresenter,IItemListPresenter,ItemProxy,ID
         }
     }
 
-    override fun getDocumentObserver(): Observer<Document> {
+    override fun compareItems(allegroItem: AllegroItem, document: Document) {
+
+        val title:String = document.title()
+        val str_price:String = document.selectFirst(AllegroDivInstance.Instance.div).text()
+
+        try{
+            val float_price:Float = textToFloat(str_price)
+
+            if(float_price!=allegroItem.itemPrice){
+                onInternetView.onPriceChanged(title,float_price,allegroItem.uid)
+            }
+            Log.d(TAG,"price:"+float_price.toString())
+        }
+        catch(e: NumberFormatException){
+            e.fillInStackTrace()
+            onInternetView.onError(e.message.toString())
+        }
+
+
+    }
+
+
+    fun getDocumentObserver(allegroItem: AllegroItem): Observer<Document> {
         return object : Observer<Document> {
             override fun onComplete() {
                 Log.d(TAG, "onComplete invoked")
@@ -62,6 +94,7 @@ class OnInternetPresenter : IOnInternetPresenter,IItemListPresenter,ItemProxy,ID
 
             override fun onNext(t: Document) {
                 Log.d(TAG, "onNext invoked")
+                compareItems(allegroItem,t)
             }
 
             override fun onSubscribe(d: Disposable) {
