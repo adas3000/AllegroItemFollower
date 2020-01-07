@@ -17,7 +17,14 @@ class AddItemFragment : Fragment() {
     }
 
     private fun onURLEditingFinished(){
+        val url = editText_item_url.text.toString()
+
         Log.d(TAG,"onURLEditingFinished")
+        Log.d(TAG,"Content: "+url)
+
+
+
+
     }
 
     override fun onStart() {
