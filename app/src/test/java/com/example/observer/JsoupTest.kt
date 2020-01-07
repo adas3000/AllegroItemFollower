@@ -17,8 +17,8 @@ class JsoupTest {
 
 
         val doc_1 = Jsoup.connect(url_1).get()
-        val doc_2 = Jsoup.connect(url_1).get()
-        val doc_3 = Jsoup.connect(url_1).get()
+        val doc_2 = Jsoup.connect(url_2).get()
+        val doc_3 = Jsoup.connect(url_3).get()
 
         assertNotNull(doc_1)
         assertNotNull(doc_2)
@@ -32,8 +32,8 @@ class JsoupTest {
         assertNotNull(elem_2)
         assertNotNull(elem_3)
 
-        assertEquals("489,00",elem_1.text())
-        assertEquals("449,00",elem_2.text())
-        assertEquals("1159,00",elem_3.text())
+        assertEquals("489,00 zł",elem_1.text())
+        assertEquals("449,00 zł",elem_2.text())
+        assertEquals("1 159,00 zł",elem_3.text())
     }
 }

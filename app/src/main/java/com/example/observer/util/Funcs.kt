@@ -23,3 +23,12 @@ fun hideKeyboardInFragment(context: Context,view:View?){
     val imm :InputMethodManager = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(view!!.windowToken,0)
 }
+
+fun textToFloat(str:String):Float{
+
+
+
+
+
+    return 0.0f
+}
