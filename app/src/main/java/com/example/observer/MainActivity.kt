@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
 
         floatingActionButton3.setOnClickListener {
             val fab_fragmentTransition = supportFragmentManager.beginTransaction()
+            floatingActionButton3.hide()
             fab_fragmentTransition.replace(R.id.frameLayout_fragmentKeeper,AddItemFragment())
             fab_fragmentTransition.addToBackStack(null)
             fab_fragmentTransition.commit()
@@ -36,6 +37,8 @@ class MainActivity : AppCompatActivity() {
             super.onBackPressed()
         }
         else{
+            if(floatingActionButton3.isOrWillBeHidden) floatingActionButton3.show()
+
             supportFragmentManager.popBackStack()
         }
 
