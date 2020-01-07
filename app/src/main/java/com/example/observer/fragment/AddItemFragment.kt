@@ -84,31 +84,6 @@ class AddItemFragment : Fragment() , IAddItemView {
             db.allegroItemDao().insert(AllegroItem(0,title,price,editText_item_url.text.toString()))
         }).start()
 
-
-        val xd = db.allegroItemDao().getAll()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeWith(object:Observer<List<AllegroItem>>{
-                override fun onComplete() {
-                    Log.d(TAG,"on complete invoked")
-                }
-
-                override fun onError(e: Throwable) {
-                    Log.d(TAG,"on error invoked")
-                    Log.d(TAG,e.message)
-                }
-
-                override fun onNext(t: List<AllegroItem>) {
-                    Log.d(TAG,"on next invoked")
-                    Log.d(TAG,"allegroitems size:"+t.size)
-
-                }
-
-                override fun onSubscribe(d: Disposable) {
-                    Log.d(TAG,"on subscribe invoked")
-                }
-            })
-
     }
 
 }

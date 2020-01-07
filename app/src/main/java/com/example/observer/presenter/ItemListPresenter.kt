@@ -4,7 +4,6 @@ import android.util.Log
 import com.example.observer.db.AppDatabase
 import com.example.observer.model.AllegroItem
 import com.example.observer.view.ItemListView
-import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -27,6 +26,7 @@ class ItemListPresenter : IItemListPresenter {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(getObserver())
+
     }
 
     fun getObserver():Observer<List<AllegroItem>>{
@@ -40,6 +40,7 @@ class ItemListPresenter : IItemListPresenter {
             override fun onError(e: Throwable) {
                 Log.d(TAG,"on error invoked")
                 Log.d(TAG,e.message)
+                itemListView.onError(e.message.toString())
             }
 
             override fun onNext(t: List<AllegroItem>) {
