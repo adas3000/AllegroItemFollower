@@ -43,7 +43,6 @@ class FormatTextPriceTest {
         assertEquals(489.00f, textToFloat(price_1))
         assertEquals(449.00f, textToFloat(price_2))
         assertEquals(1159.00f, textToFloat(price_3))
-
     }
 
 
