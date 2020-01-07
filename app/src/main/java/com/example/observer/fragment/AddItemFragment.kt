@@ -16,7 +16,11 @@ import com.example.observer.util.hideKeyboardInFragment
 import com.example.observer.util.isAllegroPage
 import com.example.observer.view.IJsoupUrlView
 import es.dmoral.toasty.Toasty
+import io.reactivex.Observer
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.add_item_fragment_layout.*
 
 class AddItemFragment : Fragment() , IJsoupUrlView {
@@ -71,6 +75,7 @@ class AddItemFragment : Fragment() , IJsoupUrlView {
     }
 
     override fun onScanFinishedSuccess(title: String,price:Float,disposable:Disposable) {
+        disposable.dispose()
 
         val db = Room.databaseBuilder(activity!!.applicationContext,AppDatabase::class.java,
             "allegroitemdb1").build()
@@ -81,8 +86,32 @@ class AddItemFragment : Fragment() , IJsoupUrlView {
         }).start()
 
 
-      //  Log.d(TAG,"Item 0:"+)
-        disposable.dispose()
+        val xd = db.allegroItemDao().getAll()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWith(object:Observer<List<AllegroItem>>{
+                override fun onComplete() {
+                    Log.d(TAG,"on complete invoked")
+                }
+
+                override fun onError(e: Throwable) {
+                    Log.d(TAG,"on error invoked")
+                    Log.d(TAG,e.message)
+                }
+
+                override fun onNext(t: List<AllegroItem>) {
+                    Log.d(TAG,"on next invoked")
+                    Log.d(TAG,"1 item:"+t[0].itemName)
+                    Log.d(TAG,"1 item:"+t[0].itemPrice)
+                    Log.d(TAG,"1 item:"+t[0].itemURL)
+                }
+
+                override fun onSubscribe(d: Disposable) {
+                    Log.d(TAG,"on subscribe invoked")
+                }
+            })
+
+
     }
 
 }

@@ -77,7 +77,6 @@ class JsoupUrlPresenter : IJsoupUrlPresenter {
 
             override fun onNext(t: Document) {
                 Log.d(TAG, "onNext invoked")
-                Log.d(TAG,"Title:"+t.title())
                 checkPriceAndFinish(t)
             }
 
