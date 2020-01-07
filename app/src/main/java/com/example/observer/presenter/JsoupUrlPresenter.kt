@@ -47,6 +47,13 @@ class JsoupUrlPresenter : IJsoupUrlPresenter {
 
     }
 
+     override fun checkPriceAndAddToUserList(document: Document) {
+
+         
+
+
+    }
+
     private fun getObserver(): Observer<Document> {
 
         return object : Observer<Document> {
@@ -56,6 +63,8 @@ class JsoupUrlPresenter : IJsoupUrlPresenter {
 
             override fun onNext(t: Document) {
                 Log.d(TAG, "onNext invoked")
+                Log.d(TAG,"Title:"+t.title())
+                checkPriceAndAddToUserList(t)
             }
 
             override fun onSubscribe(d: Disposable) {
