@@ -3,7 +3,7 @@ package com.example.observer.presenter
 import android.util.Log
 import com.example.observer.enums.AllegroDivInstance
 import com.example.observer.util.textToFloat
-import com.example.observer.view.IJsoupUrlView
+import com.example.observer.view.IAddItemView
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -15,14 +15,14 @@ import java.io.IOException
 import java.lang.NumberFormatException
 import java.lang.RuntimeException
 
-class JsoupUrlPresenter : IJsoupUrlPresenter {
+class AddItemPresenter : IAddItemPresenter {
 
-    private val TAG = "JsoupUrlPresenter"
+    private val TAG = "AddItemPresenter"
 
-    val jsoupurlView:IJsoupUrlView
+    val jsoupurlView:IAddItemView
     lateinit var disposable: Disposable
 
-    constructor(jsoupurlView:IJsoupUrlView) {
+    constructor(jsoupurlView:IAddItemView) {
         this.jsoupurlView = jsoupurlView
     }
 

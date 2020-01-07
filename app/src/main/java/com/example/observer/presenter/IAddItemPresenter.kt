@@ -2,7 +2,7 @@ package com.example.observer.presenter
 
 import org.jsoup.nodes.Document
 
-interface IJsoupUrlPresenter {
+interface IAddItemPresenter {
     fun scanURL(url:String)
     fun checkPriceAndFinish(document: Document)
 }

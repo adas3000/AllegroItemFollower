@@ -11,19 +11,18 @@ import androidx.room.Room
 import com.example.observer.R
 import com.example.observer.db.AppDatabase
 import com.example.observer.model.AllegroItem
-import com.example.observer.presenter.JsoupUrlPresenter
+import com.example.observer.presenter.AddItemPresenter
 import com.example.observer.util.hideKeyboardInFragment
 import com.example.observer.util.isAllegroPage
-import com.example.observer.view.IJsoupUrlView
+import com.example.observer.view.IAddItemView
 import es.dmoral.toasty.Toasty
 import io.reactivex.Observer
-import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.add_item_fragment_layout.*
 
-class AddItemFragment : Fragment() , IJsoupUrlView {
+class AddItemFragment : Fragment() , IAddItemView {
 
     companion object{
         private var TAG="AddItemFragment"
@@ -44,7 +43,7 @@ class AddItemFragment : Fragment() , IJsoupUrlView {
             return
         }
 
-        JsoupUrlPresenter(this).scanURL(url)
+        AddItemPresenter(this).scanURL(url)
     }
 
     override fun onStart() {

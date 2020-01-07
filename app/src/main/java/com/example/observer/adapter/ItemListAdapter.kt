@@ -19,7 +19,7 @@ class ItemListAdapter(val itemList:List<AllegroItem>):RecyclerView.Adapter<ItemL
         holder.item_name.setText(itemList[position].itemName)
         holder.price.setText(itemList[position].itemPrice.toString())
         holder.url.setText(itemList[position].itemURL)
-        
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
