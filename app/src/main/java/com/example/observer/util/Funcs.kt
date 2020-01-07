@@ -6,13 +6,10 @@ import java.util.regex.Pattern
 fun isAllegroPage(url:String):Boolean{
 
 
-    val begin:String= "https://allegro.pl"
+    val begin:String= "^https://allegro.pl/oferta/"
 
     val pattern :Pattern= Pattern.compile(begin)
     val matcher:Matcher = pattern.matcher(url)
-
-
-
 
 
     return matcher.find()
