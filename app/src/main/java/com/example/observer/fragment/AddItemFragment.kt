@@ -109,7 +109,6 @@ class AddItemFragment : Fragment() , IAddItemView {
                 }
             })
 
-
     }
 
 }
