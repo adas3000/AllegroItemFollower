@@ -20,10 +20,26 @@ class FormatTextPriceTest {
 
         println(str)
         assertEquals("name=someGuy123age=21soonyear=2020",str)
+    }
 
+    @Test
+    fun removeLettersTest(){
+
+        var str:String = "1 159,00 zł"
+        str = str.replace("zł", "")
+
+
+        assertEquals("1 159,00 ",str)
 
     }
 
+    @Test
+    fun textToFloatTest(){
+
+
+
+
+    }
 
 
 }
