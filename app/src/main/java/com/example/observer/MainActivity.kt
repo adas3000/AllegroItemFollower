@@ -10,9 +10,7 @@ import com.example.observer.fragment.AddItemFragment
 import com.example.observer.fragment.ItemListFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import android.content.Intent
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.IntentFilter
 import android.net.Network
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
