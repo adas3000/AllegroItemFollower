@@ -25,12 +25,12 @@ import kotlinx.android.synthetic.main.itemlist_fragment_layout.*
 class ItemListFragment : Fragment(),ItemListView,ItemAction {
 
 
+
     override fun onStart() {
         super.onStart()
         val itemListPresenter:IItemListPresenter = ItemListPresenter(this)
-        itemListPresenter.onGetAllItems(
-            Room.databaseBuilder(activity!!.applicationContext, AppDatabase::class.java,
-                "allegroitemdb1").build())
+        itemListPresenter.onGetAllItems(Room.databaseBuilder(activity!!.applicationContext,AppDatabase::class.java,
+            "allegroitemdb1").build())
     }
 
 
@@ -59,7 +59,19 @@ class ItemListFragment : Fragment(),ItemListView,ItemAction {
     }
 
     override fun onRemoveClick(id: Int) {
+        //ask
+        val db = Room.databaseBuilder(activity!!.applicationContext,AppDatabase::class.java,
+            "allegroitemdb1").build()
+        
+        Thread(Runnable {
+            db.allegroItemDao().deleteById(id)
+        }).start()
 
+        val currentFragment:Fragment = activity!!.supportFragmentManager.findFragmentById(R.id.frameLayout_fragmentKeeper) as Fragment
+        val fragmentTransaction = fragmentManager!!.beginTransaction()
+        fragmentTransaction.detach(currentFragment)
+        fragmentTransaction.attach(currentFragment)
+        fragmentTransaction.commit()
     }
 
 }
