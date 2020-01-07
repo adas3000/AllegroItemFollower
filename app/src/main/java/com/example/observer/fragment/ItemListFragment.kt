@@ -60,9 +60,8 @@ class ItemListFragment : Fragment(),ItemListView,ItemAction {
     }
 
     override fun onRemoveClick(id: Int) {
-        //ask
 
-        val alertDialog = AlertDialog.Builder(activity!!.applicationContext)
+        val alertDialog = AlertDialog.Builder(activity)
             .setCancelable(false)
             .setTitle("Remove")
             .setMessage("Are you sure?")
