@@ -47,10 +47,10 @@ class MainActivity : AppCompatActivity() {
         }
         val connectivityManager = applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkRequest = NetworkRequest.Builder()
-                .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-                .build()
+            .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+            .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
+            .build()
         connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
-
 
 
         val supportFragmentManager: FragmentManager = supportFragmentManager
