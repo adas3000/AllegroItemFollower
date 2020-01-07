@@ -13,6 +13,9 @@ interface AllegroItemDao {
     @Query("select * from allegroitem where url like :url ")
     fun itemExist(url: String): Observable<List<AllegroItem>>
 
+    @Query("update allegroitem set price=:price where uid=:uid")
+    fun updatePrice(price:Float,uid:Int)
+    
     @Insert
     fun insert(item: AllegroItem)
 
