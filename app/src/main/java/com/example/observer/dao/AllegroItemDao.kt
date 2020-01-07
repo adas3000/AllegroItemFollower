@@ -11,8 +11,8 @@ interface AllegroItemDao {
     fun getAll():Observable<List<AllegroItem>>
 
     @Query("select * from allegroitem where url like :url ")
-    fun itemExist(url:String):List<AllegroItem>
-    
+    fun itemExist(url:String):Observable<List<AllegroItem>>
+
     @Insert
     fun insert(item:AllegroItem)
 

@@ -101,9 +101,8 @@ class AddItemFragment : Fragment() , IJsoupUrlView {
 
                 override fun onNext(t: List<AllegroItem>) {
                     Log.d(TAG,"on next invoked")
-                    Log.d(TAG,"1 item:"+t[0].itemName)
-                    Log.d(TAG,"1 item:"+t[0].itemPrice)
-                    Log.d(TAG,"1 item:"+t[0].itemURL)
+                    Log.d(TAG,"allegroitems size:"+t.size)
+
                 }
 
                 override fun onSubscribe(d: Disposable) {
