@@ -2,12 +2,13 @@ package com.example.observer.dao
 
 import androidx.room.*
 import com.example.observer.model.AllegroItem
+import io.reactivex.Observable
 
 @Dao
 interface AllegroItemDao {
 
     @Query("SELECT * FROM allegroitem")
-    fun getAll():List<AllegroItem>
+    fun getAll():Observable<List<AllegroItem>>
 
     @Insert
     fun insert(item:AllegroItem)

@@ -75,9 +75,13 @@ class AddItemFragment : Fragment() , IJsoupUrlView {
         val db = Room.databaseBuilder(activity!!.applicationContext,AppDatabase::class.java,
             "allegroitemdb1").build()
 
-        db.allegroItemDao().insert(AllegroItem(0,title,price,editText_item_url.text.toString()))
 
-        Log.d(TAG,"Item 0:"+db.allegroItemDao().getAll()[0])
+        Thread(Runnable {
+            db.allegroItemDao().insert(AllegroItem(0,title,price,editText_item_url.text.toString()))
+        }).start()
+
+
+      //  Log.d(TAG,"Item 0:"+)
         disposable.dispose()
     }
 
