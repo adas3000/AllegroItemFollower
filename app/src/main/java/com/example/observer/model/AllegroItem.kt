@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity
 class AllegroItem {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val uid:Int
 
     @ColumnInfo(name = "item_name")

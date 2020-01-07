@@ -17,5 +17,4 @@ interface AllegroItemDao {
 
     @Update
     fun update(item:AllegroItem)
-
 }
