@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import com.example.observer.R
+import com.example.observer.util.isAllegroPage
 import kotlinx.android.synthetic.main.add_item_fragment_layout.*
 
 class AddItemFragment : Fragment() {
@@ -22,7 +23,9 @@ class AddItemFragment : Fragment() {
         Log.d(TAG,"onURLEditingFinished")
         Log.d(TAG,"Content: "+url)
 
+        if(!isAllegroPage(url)){
 
+        }
 
 
 
