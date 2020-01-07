@@ -8,12 +8,14 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import com.example.observer.R
+import com.example.observer.presenter.JsoupUrlPresenter
 import com.example.observer.util.hideKeyboardInFragment
 import com.example.observer.util.isAllegroPage
+import com.example.observer.view.IJsoupUrlView
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.add_item_fragment_layout.*
 
-class AddItemFragment : Fragment() {
+class AddItemFragment : Fragment() , IJsoupUrlView {
 
     companion object{
         private var TAG="AddItemFragment"
@@ -34,8 +36,7 @@ class AddItemFragment : Fragment() {
             return
         }
 
-
-
+        JsoupUrlPresenter(this).scanURL(url)
     }
 
     override fun onStart() {
@@ -60,7 +61,13 @@ class AddItemFragment : Fragment() {
         return inflater.inflate(R.layout.add_item_fragment_layout, container, false)
     }
 
+    override fun onError(msg: String) {
+        Toasty.error(activity!!.applicationContext,msg,Toasty.LENGTH_SHORT).show()
+    }
 
+    override fun onScanFinishedSuccess(msg: String) {
+        Toasty.success(activity!!.applicationContext,msg,Toasty.LENGTH_SHORT).show()
+    }
 
 
 }
