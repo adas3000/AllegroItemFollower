@@ -15,7 +15,7 @@ interface AllegroItemDao {
 
     @Query("update allegroitem set price=:price where uid=:uid")
     fun updatePrice(price:Float,uid:Int)
-    
+
     @Insert
     fun insert(item: AllegroItem)
 

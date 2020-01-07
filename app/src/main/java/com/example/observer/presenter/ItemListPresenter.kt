@@ -3,13 +3,14 @@ package com.example.observer.presenter
 import android.util.Log
 import com.example.observer.db.AppDatabase
 import com.example.observer.model.AllegroItem
+import com.example.observer.util.IItemListObserver
 import com.example.observer.view.ItemListView
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class ItemListPresenter : IItemListPresenter {
+class ItemListPresenter : IItemListPresenter , IItemListObserver {
 
     private val TAG="ItemListPresenter"
 
@@ -26,11 +27,12 @@ class ItemListPresenter : IItemListPresenter {
         db.allegroItemDao().getAll()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribeWith(getObserver())
+            .subscribeWith(getItemListObserver())
 
     }
 
-    fun getObserver():Observer<List<AllegroItem>>{
+
+    override fun getItemListObserver(): Observer<List<AllegroItem>> {
         return object:Observer<List<AllegroItem>>{
 
             override fun onComplete() {
@@ -57,7 +59,6 @@ class ItemListPresenter : IItemListPresenter {
 
         }
     }
-
 
 
 }

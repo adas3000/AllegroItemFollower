@@ -2,6 +2,8 @@ package com.example.observer.presenter
 
 import android.util.Log
 import com.example.observer.enums.AllegroDivInstance
+import com.example.observer.util.IDocumentObserver
+import com.example.observer.util.ItemProxy
 import com.example.observer.util.textToFloat
 import com.example.observer.view.IAddItemView
 import io.reactivex.Observable
@@ -15,7 +17,7 @@ import java.io.IOException
 import java.lang.NumberFormatException
 import java.lang.RuntimeException
 
-class AddItemPresenter : IAddItemPresenter {
+class AddItemPresenter : IAddItemPresenter,ItemProxy,IDocumentObserver {
 
     private val TAG = "AddItemPresenter"
 
@@ -26,7 +28,7 @@ class AddItemPresenter : IAddItemPresenter {
         this.jsoupurlView = jsoupurlView
     }
 
-    private fun getJsoupProx(url: String): Observable<Document> {
+    override fun getJsoupProx(url: String): Observable<Document> {
 
         return Observable.fromCallable<Document> {
             try {
@@ -40,7 +42,7 @@ class AddItemPresenter : IAddItemPresenter {
 
     override fun scanURL(url: String) {
 
-        val observer: Observer<Document> = getObserver()
+        val observer: Observer<Document> = getDocumentObserver()
 
         getJsoupProx(url)
             .subscribeOn(Schedulers.io())
@@ -67,9 +69,7 @@ class AddItemPresenter : IAddItemPresenter {
 
     }
 
-
-    private fun getObserver(): Observer<Document> {
-
+    override fun getDocumentObserver(): Observer<Document> {
         return object : Observer<Document> {
             override fun onComplete() {
                 Log.d(TAG, "onComplete invoked")

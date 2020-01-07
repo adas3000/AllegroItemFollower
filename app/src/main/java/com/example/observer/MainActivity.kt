@@ -16,9 +16,14 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.util.Log
+import androidx.room.Room
+import com.example.observer.db.AppDatabase
+import com.example.observer.presenter.IOnInternetPresenter
+import com.example.observer.presenter.OnInternetPresenter
+import com.example.observer.view.IOnInternetView
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),IOnInternetView {
 
     private val TAG = "MainActivity"
 
@@ -26,6 +31,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val internetPresenter:IOnInternetPresenter = OnInternetPresenter(this)
+
 
         var networkCallback = object : ConnectivityManager.NetworkCallback() {
             override fun onLost(network: Network?) {
@@ -42,9 +50,11 @@ class MainActivity : AppCompatActivity() {
 
             override fun onAvailable(network: Network?) {
                 Log.d(TAG, "onAvailable invoked")
-
+                internetPresenter.onAvailable(
+                    Room.databaseBuilder(applicationContext, AppDatabase::class.java, "allegroitemdb1").build())
             }
         }
+
         val connectivityManager = applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkRequest = NetworkRequest.Builder()
             .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
@@ -82,5 +92,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onPriceChanged(item_name: String,new_price:Float) {
+        //notify user
+    }
 
 }
