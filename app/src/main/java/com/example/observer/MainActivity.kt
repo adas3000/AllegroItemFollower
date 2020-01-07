@@ -23,6 +23,7 @@ import androidx.room.Room
 import com.example.observer.db.AppDatabase
 import com.example.observer.presenter.IOnInternetPresenter
 import com.example.observer.presenter.OnInternetPresenter
+import com.example.observer.service.AppService
 import com.example.observer.view.IOnInternetView
 import es.dmoral.toasty.Toasty
 
@@ -36,8 +37,11 @@ class MainActivity : AppCompatActivity(),IOnInternetView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val internetPresenter:IOnInternetPresenter = OnInternetPresenter(this)
+        val intent_run_in_background = Intent(this,AppService::class.java)
+        this.startService(intent_run_in_background)
 
+
+        val internetPresenter:IOnInternetPresenter = OnInternetPresenter(this)
 
         var networkCallback = object : ConnectivityManager.NetworkCallback() {
             override fun onLost(network: Network?) {
@@ -102,6 +106,7 @@ class MainActivity : AppCompatActivity(),IOnInternetView {
         Thread(Runnable {
             db.allegroItemDao().updatePrice(new_price,uid)
         }).start()
+        //todo list update if on ItemListFragment
 
         val notificationManager: NotificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

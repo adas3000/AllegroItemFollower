@@ -4,7 +4,6 @@ import android.util.Log
 import com.example.observer.db.AppDatabase
 import com.example.observer.enums.AllegroDivInstance
 import com.example.observer.model.AllegroItem
-import com.example.observer.util.IDocumentObserver
 import com.example.observer.util.IItemListObserver
 import com.example.observer.util.ItemProxy
 import com.example.observer.util.textToFloat
@@ -24,6 +23,8 @@ class OnInternetPresenter : IOnInternetPresenter,IItemListPresenter,ItemProxy,II
 
     val onInternetView:IOnInternetView
     private val TAG="OnInternetPresenter"
+
+    //todo make all disposables dispose
 
     constructor(onInternetView: IOnInternetView) {
         this.onInternetView = onInternetView
