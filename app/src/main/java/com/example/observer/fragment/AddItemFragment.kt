@@ -6,9 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import com.example.observer.R
+import com.example.observer.util.hideKeyboardInFragment
 import com.example.observer.util.isAllegroPage
+import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.add_item_fragment_layout.*
 
 class AddItemFragment : Fragment() {
@@ -18,13 +21,18 @@ class AddItemFragment : Fragment() {
     }
 
     private fun onURLEditingFinished(){
+
+        hideKeyboardInFragment(activity!!.applicationContext,view)
+
+
         val url = editText_item_url.text.toString()
 
         Log.d(TAG,"onURLEditingFinished")
         Log.d(TAG,"Content: "+url)
 
         if(!isAllegroPage(url)){
-
+            Toasty.info(activity!!.applicationContext,"Incorrect url",Toasty.LENGTH_LONG).show()
+            return
         }
 
 
