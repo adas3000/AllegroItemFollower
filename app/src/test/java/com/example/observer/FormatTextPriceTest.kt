@@ -1,5 +1,6 @@
 package com.example.observer
 
+import com.example.observer.util.textToFloat
 import org.junit.Test
 import org.junit.Assert.*
 
@@ -24,10 +25,8 @@ class FormatTextPriceTest {
 
     @Test
     fun removeLettersTest(){
-
         var str:String = "1 159,00 zł"
         str = str.replace("zł", "")
-
 
         assertEquals("1 159,00 ",str)
 
@@ -36,8 +35,14 @@ class FormatTextPriceTest {
     @Test
     fun textToFloatTest(){
 
+        var price_1:String = "489,00 zł"
+        var price_2:String = "449,00 zł"
+        var price_3:String = "1 159,00 zł"
 
 
+        assertEquals(489.00f, textToFloat(price_1))
+        assertEquals(449.00f, textToFloat(price_2))
+        assertEquals(1159.00f, textToFloat(price_3))
 
     }
 

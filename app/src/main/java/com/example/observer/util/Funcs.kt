@@ -27,6 +27,7 @@ fun hideKeyboardInFragment(context: Context,view:View?){
 fun textToFloat(str:String):Float{
 
     var new_str :String= str.replace(" ","")
+    new_str = new_str.replace("zł","")
     new_str = new_str.replace(",",".")
 
 
