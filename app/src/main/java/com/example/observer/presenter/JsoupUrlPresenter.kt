@@ -1,6 +1,8 @@
 package com.example.observer.presenter
 
 import android.util.Log
+import com.example.observer.enums.AllegroDivInstance
+import com.example.observer.util.textToFloat
 import com.example.observer.view.IJsoupUrlView
 import io.reactivex.Observable
 import io.reactivex.Observer
@@ -10,6 +12,7 @@ import io.reactivex.schedulers.Schedulers
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import java.io.IOException
+import java.lang.NumberFormatException
 import java.lang.RuntimeException
 
 class JsoupUrlPresenter : IJsoupUrlPresenter {
@@ -49,8 +52,17 @@ class JsoupUrlPresenter : IJsoupUrlPresenter {
 
      override fun checkPriceAndAddToUserList(document: Document) {
 
-         
+         val title:String = document.title()
+         val str_price:String = document.selectFirst(AllegroDivInstance.Instance.div).text()
 
+         try{
+             val float_price:Float = textToFloat(str_price)
+             Log.d(TAG,"price:"+float_price.toString())
+         }
+         catch(e:NumberFormatException){
+             e.fillInStackTrace()
+             jsoupurlView.onError(e.message.toString())
+         }
 
     }
 
