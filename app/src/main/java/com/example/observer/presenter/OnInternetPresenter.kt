@@ -23,6 +23,7 @@ class OnInternetPresenter : IOnInternetPresenter,IItemListPresenter,ItemProxy,II
 
     val onInternetView:IOnInternetView
     private val TAG="OnInternetPresenter"
+    lateinit var dispose:Disposable
 
     //todo make all disposables dispose
 
@@ -44,7 +45,7 @@ class OnInternetPresenter : IOnInternetPresenter,IItemListPresenter,ItemProxy,II
     }
 
     override fun doCheck(itemList: List<AllegroItem>) {
-
+        doDispose(dispose)
         for(item:AllegroItem in itemList){
             getJsoupProxy(item.itemURL.toString())
                 .subscribeOn(Schedulers.io())
@@ -78,6 +79,7 @@ class OnInternetPresenter : IOnInternetPresenter,IItemListPresenter,ItemProxy,II
             }
             onInternetView.onPriceChanged(title,float_price,allegroItem.uid)
             Log.d(TAG,"price:"+float_price.toString())
+            doDispose(dispose)
         }
         catch(e: NumberFormatException){
             e.fillInStackTrace()
@@ -101,6 +103,7 @@ class OnInternetPresenter : IOnInternetPresenter,IItemListPresenter,ItemProxy,II
 
             override fun onSubscribe(d: Disposable) {
                 Log.d(TAG, "onSubscribed invoked")
+                dispose = d
             }
 
             override fun onError(e: Throwable) {
@@ -129,8 +132,14 @@ class OnInternetPresenter : IOnInternetPresenter,IItemListPresenter,ItemProxy,II
 
             override fun onSubscribe(d: Disposable) {
                 Log.d(TAG,"on subscribe invoked")
+                dispose = d
             }
 
         }
     }
+
+    fun doDispose(d:Disposable){
+        d.dispose()
+    }
+
 }
