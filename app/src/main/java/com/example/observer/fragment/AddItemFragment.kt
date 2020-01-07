@@ -7,12 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
+import androidx.room.Room
 import com.example.observer.R
+import com.example.observer.db.AppDatabase
 import com.example.observer.presenter.JsoupUrlPresenter
 import com.example.observer.util.hideKeyboardInFragment
 import com.example.observer.util.isAllegroPage
 import com.example.observer.view.IJsoupUrlView
 import es.dmoral.toasty.Toasty
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.add_item_fragment_layout.*
 
 class AddItemFragment : Fragment() , IJsoupUrlView {
@@ -61,13 +64,17 @@ class AddItemFragment : Fragment() , IJsoupUrlView {
         return inflater.inflate(R.layout.add_item_fragment_layout, container, false)
     }
 
-    override fun onError(msg: String) {
+    override fun onError(msg: String,disposable: Disposable) {
         Toasty.error(activity!!.applicationContext,msg,Toasty.LENGTH_SHORT).show()
+        disposable.dispose()
     }
 
-    override fun onScanFinishedSuccess(msg: String) {
-        Toasty.success(activity!!.applicationContext,msg,Toasty.LENGTH_SHORT).show()
-    }
+    override fun onScanFinishedSuccess(title: String,price:Float,disposable:Disposable) {
+        disposable.dispose()
 
+        val db = Room.databaseBuilder(activity!!.applicationContext,AppDatabase::class.java,
+            "allegroitemdb1").build()
+
+    }
 
 }

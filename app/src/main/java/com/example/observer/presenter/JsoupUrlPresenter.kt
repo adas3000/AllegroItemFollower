@@ -20,6 +20,7 @@ class JsoupUrlPresenter : IJsoupUrlPresenter {
     private val TAG = "JsoupUrlPresenter"
 
     val jsoupurlView:IJsoupUrlView
+    lateinit var disposable: Disposable
 
     constructor(jsoupurlView:IJsoupUrlView) {
         this.jsoupurlView = jsoupurlView
@@ -37,7 +38,6 @@ class JsoupUrlPresenter : IJsoupUrlPresenter {
         }
     }
 
-
     override fun scanURL(url: String) {
 
         val observer: Observer<Document> = getObserver()
@@ -50,7 +50,7 @@ class JsoupUrlPresenter : IJsoupUrlPresenter {
 
     }
 
-     override fun checkPriceAndAddToUserList(document: Document) {
+     override fun checkPriceAndFinish(document: Document) {
 
          val title:String = document.title()
          val str_price:String = document.selectFirst(AllegroDivInstance.Instance.div).text()
@@ -58,13 +58,15 @@ class JsoupUrlPresenter : IJsoupUrlPresenter {
          try{
              val float_price:Float = textToFloat(str_price)
              Log.d(TAG,"price:"+float_price.toString())
+             jsoupurlView.onScanFinishedSuccess(title,float_price,disposable)
          }
          catch(e:NumberFormatException){
              e.fillInStackTrace()
-             jsoupurlView.onError(e.message.toString())
+             jsoupurlView.onError(e.message.toString(),disposable)
          }
 
     }
+
 
     private fun getObserver(): Observer<Document> {
 
@@ -76,19 +78,19 @@ class JsoupUrlPresenter : IJsoupUrlPresenter {
             override fun onNext(t: Document) {
                 Log.d(TAG, "onNext invoked")
                 Log.d(TAG,"Title:"+t.title())
-                checkPriceAndAddToUserList(t)
+                checkPriceAndFinish(t)
             }
 
             override fun onSubscribe(d: Disposable) {
                 Log.d(TAG, "onSubscribed invoked")
+                disposable = d
             }
 
             override fun onError(e: Throwable) {
                 Log.d(TAG, "onError invoked")
                 Log.d(TAG,e.message)
-                jsoupurlView.onError(e.message.toString())
+                jsoupurlView.onError(e.message.toString(),disposable)
             }
         }
     }
-
 }

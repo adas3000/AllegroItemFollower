@@ -4,5 +4,5 @@ import org.jsoup.nodes.Document
 
 interface IJsoupUrlPresenter {
     fun scanURL(url:String)
-    fun checkPriceAndAddToUserList(document: Document)
+    fun checkPriceAndFinish(document: Document)
 }
