@@ -97,6 +97,12 @@ class MainActivity : AppCompatActivity(),IOnInternetView {
     }
 
     override fun onPriceChanged(item_name: String,new_price:Float,uid:Int) {
+        val db =  Room.databaseBuilder(applicationContext, AppDatabase::class.java, "allegroitemdb1").build()
+
+        Thread(Runnable {
+            db.allegroItemDao().updatePrice(new_price,uid)
+        }).start()
+
         val notificationManager: NotificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -106,6 +112,7 @@ class MainActivity : AppCompatActivity(),IOnInternetView {
             .setSmallIcon(R.drawable.notification_icon_background)
             .setContentTitle("Item price changed")
             .setContentText(item_name+" price changed to "+new_price+" zł.")
+            .setStyle(NotificationCompat.BigTextStyle().bigText(item_name+" price changed to "+new_price+" zł."))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         val notificationChannel: NotificationChannel = NotificationChannel(channelId, "channelname",
