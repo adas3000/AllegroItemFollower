@@ -1,5 +1,6 @@
 package com.example.observer.fragment
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -60,18 +61,31 @@ class ItemListFragment : Fragment(),ItemListView,ItemAction {
 
     override fun onRemoveClick(id: Int) {
         //ask
-        val db = Room.databaseBuilder(activity!!.applicationContext,AppDatabase::class.java,
-            "allegroitemdb1").build()
-        
-        Thread(Runnable {
-            db.allegroItemDao().deleteById(id)
-        }).start()
 
-        val currentFragment:Fragment = activity!!.supportFragmentManager.findFragmentById(R.id.frameLayout_fragmentKeeper) as Fragment
-        val fragmentTransaction = fragmentManager!!.beginTransaction()
-        fragmentTransaction.detach(currentFragment)
-        fragmentTransaction.attach(currentFragment)
-        fragmentTransaction.commit()
+        val alertDialog = AlertDialog.Builder(activity!!.applicationContext)
+            .setCancelable(false)
+            .setTitle("Remove")
+            .setMessage("Are you sure?")
+            .setPositiveButton("Yes",{dialog, which ->
+
+                val db = Room.databaseBuilder(activity!!.applicationContext,AppDatabase::class.java,
+                    "allegroitemdb1").build()
+
+                Thread(Runnable {
+                    db.allegroItemDao().deleteById(id)
+                }).start()
+
+                val currentFragment:Fragment = activity!!.supportFragmentManager.findFragmentById(R.id.frameLayout_fragmentKeeper) as Fragment
+                val fragmentTransaction = fragmentManager!!.beginTransaction()
+                fragmentTransaction.detach(currentFragment)
+                fragmentTransaction.attach(currentFragment)
+                fragmentTransaction.commit()
+            })
+            .setNegativeButton("No",{dialog, which ->
+                dialog.cancel()
+            }).create()
+        alertDialog.show()
+
     }
 
 }
