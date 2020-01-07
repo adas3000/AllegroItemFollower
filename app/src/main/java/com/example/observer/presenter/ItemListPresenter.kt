@@ -15,13 +15,14 @@ class ItemListPresenter : IItemListPresenter {
 
     val itemListView:ItemListView
     lateinit var allegroItemList:List<AllegroItem>
+    lateinit var disposable: Disposable
 
     constructor(itemListView:ItemListView){
         this.itemListView = itemListView
     }
 
     override fun onGetAllItems(db: AppDatabase) {
-        val xd =
+
         db.allegroItemDao().getAll()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -34,20 +35,23 @@ class ItemListPresenter : IItemListPresenter {
 
             override fun onComplete() {
                 Log.d(TAG, "onComplete invoked")
-                itemListView.onFinish(allegroItemList)
+                itemListView.onFinish(allegroItemList,disposable)
             }
 
             override fun onError(e: Throwable) {
                 Log.d(TAG,"on error invoked")
                 Log.d(TAG,e.message)
-                itemListView.onError(e.message.toString())
+                itemListView.onError(e.message.toString(),disposable)
             }
 
             override fun onNext(t: List<AllegroItem>) {
+                Log.d(TAG,"on next invoked")
                 allegroItemList = t
+                itemListView.onFinish(allegroItemList,disposable)
             }
 
             override fun onSubscribe(d: Disposable) {
+                disposable = d
                 Log.d(TAG,"on subscribe invoked")
             }
 

@@ -23,7 +23,7 @@ class ItemListAdapter(val itemList:List<AllegroItem>):RecyclerView.Adapter<ItemL
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent?.context).inflate(R.layout.itemlist_fragment_layout,parent,false)
+        val v = LayoutInflater.from(parent?.context).inflate(R.layout.item_data_layout,parent,false)
         return ViewHolder(v)
     }
 

@@ -16,6 +16,7 @@ import com.example.observer.presenter.IItemListPresenter
 import com.example.observer.presenter.ItemListPresenter
 import com.example.observer.view.ItemListView
 import es.dmoral.toasty.Toasty
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.itemlist_fragment_layout.*
 
 class ItemListFragment : Fragment(),ItemListView {
@@ -35,14 +36,17 @@ class ItemListFragment : Fragment(),ItemListView {
     }
 
 
-    override fun onError(msg: String) {
+    override fun onError(msg: String,disposable: Disposable) {
+        disposable.dispose()
+
         Toasty.error(activity!!.applicationContext,msg,Toasty.LENGTH_SHORT).show()
     }
 
-    override fun onFinish(list: List<AllegroItem>) {
+    override fun onFinish(list: List<AllegroItem>,disposable: Disposable) {
+        disposable.dispose()
 
         rv_items.layoutManager = LinearLayoutManager(activity!!.applicationContext,RecyclerView.VERTICAL,false)
-        rv_items.setHasFixedSize(false)
+        rv_items.setHasFixedSize(true)
         rv_items.adapter = ItemListAdapter(list)
 
     }

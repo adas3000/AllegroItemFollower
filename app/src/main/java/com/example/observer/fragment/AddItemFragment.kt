@@ -79,7 +79,6 @@ class AddItemFragment : Fragment() , IAddItemView {
         val db = Room.databaseBuilder(activity!!.applicationContext,AppDatabase::class.java,
             "allegroitemdb1").build()
 
-
         Thread(Runnable {
             db.allegroItemDao().insert(AllegroItem(0,title,price,editText_item_url.text.toString()))
         }).start()
