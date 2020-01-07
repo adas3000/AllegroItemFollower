@@ -1,5 +1,7 @@
 package com.example.observer.fragment
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,12 +16,13 @@ import com.example.observer.db.AppDatabase
 import com.example.observer.model.AllegroItem
 import com.example.observer.presenter.IItemListPresenter
 import com.example.observer.presenter.ItemListPresenter
+import com.example.observer.util.ItemAction
 import com.example.observer.view.ItemListView
 import es.dmoral.toasty.Toasty
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.itemlist_fragment_layout.*
 
-class ItemListFragment : Fragment(),ItemListView {
+class ItemListFragment : Fragment(),ItemListView,ItemAction {
 
 
     override fun onStart() {
@@ -47,8 +50,12 @@ class ItemListFragment : Fragment(),ItemListView {
 
         rv_items.layoutManager = LinearLayoutManager(activity!!.applicationContext,RecyclerView.VERTICAL,false)
         rv_items.setHasFixedSize(true)
-        rv_items.adapter = ItemListAdapter(list)
+        rv_items.adapter = ItemListAdapter(list,this)
 
+    }
+
+    override fun onUrlClick(url:String) {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
     }
 
 

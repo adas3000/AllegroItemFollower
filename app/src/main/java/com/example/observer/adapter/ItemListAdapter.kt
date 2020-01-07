@@ -7,8 +7,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.observer.R
 import com.example.observer.model.AllegroItem
+import com.example.observer.util.ItemAction
 
-class ItemListAdapter(val itemList:List<AllegroItem>):RecyclerView.Adapter<ItemListAdapter.ViewHolder>() {
+class ItemListAdapter(val itemList:List<AllegroItem>,val itemAction: ItemAction):RecyclerView.Adapter<ItemListAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int {
         return itemList.size
@@ -19,6 +20,10 @@ class ItemListAdapter(val itemList:List<AllegroItem>):RecyclerView.Adapter<ItemL
         holder.item_name.setText(itemList[position].itemName)
         holder.price.setText(itemList[position].itemPrice.toString())
         holder.url.setText(itemList[position].itemURL)
+
+        holder.url.setOnClickListener {
+            itemAction.onUrlClick(itemList[position].itemURL.toString())
+        }
 
     }
 
