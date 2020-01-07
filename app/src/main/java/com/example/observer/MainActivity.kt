@@ -1,5 +1,7 @@
 package com.example.observer
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.FragmentManager
@@ -16,6 +18,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.util.Log
+import androidx.core.app.NotificationCompat
 import androidx.room.Room
 import com.example.observer.db.AppDatabase
 import com.example.observer.presenter.IOnInternetPresenter
@@ -94,7 +97,24 @@ class MainActivity : AppCompatActivity(),IOnInternetView {
     }
 
     override fun onPriceChanged(item_name: String,new_price:Float,uid:Int) {
-        //notify user
+        val notificationManager: NotificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        val channelId = "comexampleobserverChannel1"
+
+        var builder = NotificationCompat.Builder(this, channelId)
+            .setSmallIcon(R.drawable.notification_icon_background)
+            .setContentTitle("Item price changed")
+            .setContentText(item_name+" price changed to "+new_price+" zł.")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        val notificationChannel: NotificationChannel = NotificationChannel(channelId, "channelname",
+            NotificationManager.IMPORTANCE_DEFAULT)
+
+
+        notificationManager?.createNotificationChannel(notificationChannel)
+        builder.setChannelId(channelId)
+        notificationManager.notify(1,builder.build())
     }
 
     override fun onError(msg: String) {
