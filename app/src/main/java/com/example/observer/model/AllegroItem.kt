@@ -14,12 +14,12 @@ class AllegroItem {
     var itemName:String?
 
     @ColumnInfo(name="price")
-    var itemPrice:Int
+    var itemPrice:Float
 
     @ColumnInfo(name="url")
     var itemURL:String?
 
-    constructor(uid: Int, itemName: String, itemPrice: Int, itemURL: String) {
+    constructor(uid: Int, itemName: String, itemPrice: Float, itemURL: String) {
         this.uid = uid
         this.itemName = itemName
         this.itemPrice = itemPrice

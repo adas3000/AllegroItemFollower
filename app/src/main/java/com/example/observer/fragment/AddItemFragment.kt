@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.room.Room
 import com.example.observer.R
 import com.example.observer.db.AppDatabase
+import com.example.observer.model.AllegroItem
 import com.example.observer.presenter.JsoupUrlPresenter
 import com.example.observer.util.hideKeyboardInFragment
 import com.example.observer.util.isAllegroPage
@@ -70,11 +71,14 @@ class AddItemFragment : Fragment() , IJsoupUrlView {
     }
 
     override fun onScanFinishedSuccess(title: String,price:Float,disposable:Disposable) {
-        disposable.dispose()
 
         val db = Room.databaseBuilder(activity!!.applicationContext,AppDatabase::class.java,
             "allegroitemdb1").build()
 
+        db.allegroItemDao().insert(AllegroItem(0,title,price,editText_item_url.text.toString()))
+
+        Log.d(TAG,"Item 0:"+db.allegroItemDao().getAll()[0])
+        disposable.dispose()
     }
 
 }
