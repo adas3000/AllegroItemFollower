@@ -28,7 +28,7 @@ class AddItemPresenter : IAddItemPresenter,ItemProxy,IDocumentObserver {
         this.jsoupurlView = jsoupurlView
     }
 
-    override fun getJsoupProx(url: String): Observable<Document> {
+    override fun getJsoupProxy(url: String): Observable<Document> {
 
         return Observable.fromCallable<Document> {
             try {
@@ -44,7 +44,7 @@ class AddItemPresenter : IAddItemPresenter,ItemProxy,IDocumentObserver {
 
         val observer: Observer<Document> = getDocumentObserver()
 
-        getJsoupProx(url)
+        getJsoupProxy(url)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(observer)
