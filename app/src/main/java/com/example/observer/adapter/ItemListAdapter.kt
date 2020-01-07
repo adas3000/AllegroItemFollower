@@ -3,6 +3,7 @@ package com.example.observer.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.observer.R
@@ -25,6 +26,10 @@ class ItemListAdapter(val itemList:List<AllegroItem>,val itemAction: ItemAction)
             itemAction.onUrlClick(itemList[position].itemURL.toString())
         }
 
+        holder.remove_img.setOnClickListener {
+            itemAction.onRemoveClick(itemList[position].uid)
+        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -38,6 +43,7 @@ class ItemListAdapter(val itemList:List<AllegroItem>,val itemAction: ItemAction)
         val url = view.findViewById<TextView>(R.id.item_data_layout_textView_url)
         val item_name = view.findViewById<TextView>(R.id.item_data_layout_textView_title)
         val price = view.findViewById<TextView>(R.id.item_data_layout_textView_price)
+        val remove_img = view.findViewById<ImageView>(R.id.item_data_layout_imageView_delete)
     }
 
 

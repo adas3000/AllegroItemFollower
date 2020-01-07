@@ -58,5 +58,8 @@ class ItemListFragment : Fragment(),ItemListView,ItemAction {
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
     }
 
+    override fun onRemoveClick(id: Int) {
+
+    }
 
 }
