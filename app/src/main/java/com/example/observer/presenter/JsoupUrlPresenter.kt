@@ -12,9 +12,15 @@ import org.jsoup.nodes.Document
 import java.io.IOException
 import java.lang.RuntimeException
 
-class JsoupUrlPresenter(jsoupurlView: IJsoupUrlView) : IJsoupUrlPresenter {
+class JsoupUrlPresenter : IJsoupUrlPresenter {
 
     private val TAG = "JsoupUrlPresenter"
+
+    val jsoupurlView:IJsoupUrlView
+
+    constructor(jsoupurlView:IJsoupUrlView) {
+        this.jsoupurlView = jsoupurlView
+    }
 
     private fun getJsoupProx(url: String): Observable<Document> {
 
@@ -42,6 +48,7 @@ class JsoupUrlPresenter(jsoupurlView: IJsoupUrlView) : IJsoupUrlPresenter {
     }
 
     private fun getObserver(): Observer<Document> {
+
         return object : Observer<Document> {
             override fun onComplete() {
                 Log.d(TAG, "onComplete invoked")
@@ -57,6 +64,8 @@ class JsoupUrlPresenter(jsoupurlView: IJsoupUrlView) : IJsoupUrlPresenter {
 
             override fun onError(e: Throwable) {
                 Log.d(TAG, "onError invoked")
+                Log.d(TAG,e.message)
+                jsoupurlView.onError(e.message.toString())
             }
         }
     }
