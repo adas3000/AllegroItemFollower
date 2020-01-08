@@ -86,7 +86,7 @@ class AddItemFragment : Fragment() , IAddItemView {
         }).start()
 
         Toasty.success(activity!!.applicationContext,"Added!",Toasty.LENGTH_SHORT).show()
-
+        //todo wait till
     }
 
 }
