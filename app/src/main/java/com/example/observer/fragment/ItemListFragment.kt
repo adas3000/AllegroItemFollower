@@ -32,6 +32,10 @@ class ItemListFragment : Fragment(),ItemListView,ItemAction {
         val itemListPresenter:IItemListPresenter = ItemListPresenter(this)
         itemListPresenter.onGetAllItems(Room.databaseBuilder(activity!!.applicationContext,AppDatabase::class.java,
             "allegroitemdb1").build())
+
+        pullToRefresh.setOnRefreshListener {
+            reloadFragment()
+        }
     }
 
 
@@ -73,18 +77,21 @@ class ItemListFragment : Fragment(),ItemListView,ItemAction {
                 Thread(Runnable {
                     db.allegroItemDao().deleteById(id)
                 }).start()
-
-                val currentFragment:Fragment = activity!!.supportFragmentManager.findFragmentById(R.id.frameLayout_fragmentKeeper) as Fragment
-                val fragmentTransaction = fragmentManager!!.beginTransaction()
-                fragmentTransaction.detach(currentFragment)
-                fragmentTransaction.attach(currentFragment)
-                fragmentTransaction.commit()
+                reloadFragment()
             })
             .setNegativeButton("No",{dialog, which ->
                 dialog.cancel()
             }).create()
         alertDialog.show()
 
+    }
+
+    private fun reloadFragment(){
+        val currentFragment:Fragment = activity!!.supportFragmentManager.findFragmentById(R.id.frameLayout_fragmentKeeper) as Fragment
+        val fragmentTransaction = fragmentManager!!.beginTransaction()
+        fragmentTransaction.detach(currentFragment)
+        fragmentTransaction.attach(currentFragment)
+        fragmentTransaction.commit()
     }
 
 }
