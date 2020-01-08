@@ -22,6 +22,9 @@
         />
 
     </LinearLayout>
+
+
+
     <TextView
             android:id="@+id/item_data_layout_textView_title"
             android:hint="Title"
@@ -68,9 +71,8 @@
 
     <ImageView
             android:id="@+id/item_data_layout_imageView_img"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/ic_fab_icon"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
     />
 
 
