@@ -19,6 +19,7 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.room.Room
 import com.example.observer.db.AppDatabase
+import com.example.observer.db.GetDbInstance
 import com.example.observer.presenter.IOnInternetPresenter
 import com.example.observer.presenter.OnInternetPresenter
 import com.example.observer.service.AppService
@@ -56,8 +57,7 @@ class MainActivity : AppCompatActivity(),IOnInternetView {
 
             override fun onAvailable(network: Network?) {
                 Log.d(TAG, "onAvailable invoked")
-                internetPresenter.onAvailable(
-                    Room.databaseBuilder(applicationContext, AppDatabase::class.java, "allegroitemdb1").build())
+                internetPresenter.onAvailable(GetDbInstance.getDb(applicationContext))
             }
         }
 

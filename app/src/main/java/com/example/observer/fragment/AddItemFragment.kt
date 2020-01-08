@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.room.Room
 import com.example.observer.R
 import com.example.observer.db.AppDatabase
+import com.example.observer.db.GetDbInstance
 import com.example.observer.model.AllegroItem
 import com.example.observer.presenter.AddItemPresenter
 import com.example.observer.util.hideKeyboardInFragment
@@ -73,14 +74,15 @@ class AddItemFragment : Fragment() , IAddItemView {
         disposable.dispose()
     }
 
-    override fun onScanFinishedSuccess(title: String,price:Float,disposable:Disposable) {
+    override fun onScanFinishedSuccess(title: String,price:Float,img_url:String,disposable:Disposable) {
         disposable.dispose()
 
-        val db = Room.databaseBuilder(activity!!.applicationContext,AppDatabase::class.java,
-            "allegroitemdb1").build()
+        val db = GetDbInstance.getDb(activity!!.applicationContext)
 
         Thread(Runnable {
-            db.allegroItemDao().insert(AllegroItem(0,title,price,editText_item_url.text.toString()))
+            val allegroItem = AllegroItem(0,title,price,editText_item_url.text.toString())
+            allegroItem.itemImgUrl = img_url
+            db.allegroItemDao().insert(allegroItem)
         }).start()
 
         Toasty.success(activity!!.applicationContext,"Added!",Toasty.LENGTH_SHORT).show()

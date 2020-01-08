@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -81,8 +82,12 @@ class ItemListFragment : Fragment(),ItemListView,ItemAction {
             })
             .setNegativeButton("No",{dialog, which ->
                 dialog.cancel()
-            }).create()
+            })
+            .create()
         alertDialog.show()
+    }
+
+    override fun setItemImage(url: String, imageView: ImageView) {
 
     }
 

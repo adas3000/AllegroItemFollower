@@ -56,11 +56,12 @@ class AddItemPresenter : IAddItemPresenter,ItemProxy,IDocumentObserver {
 
          val title:String = document.title()
          val str_price:String = document.selectFirst(AllegroDivInstance.Instance.div).text()
+         val img_url:String = document.selectFirst(AllegroDivInstance.Instance.img).absUrl("src")
 
          try{
              val float_price:Float = textToFloat(str_price)
              Log.d(TAG,"price:"+float_price.toString())
-             jsoupurlView.onScanFinishedSuccess(title,float_price,disposable)
+             jsoupurlView.onScanFinishedSuccess(title,float_price,img_url,disposable)
          }
          catch(e:NumberFormatException){
              e.fillInStackTrace()
@@ -92,4 +93,5 @@ class AddItemPresenter : IAddItemPresenter,ItemProxy,IDocumentObserver {
             }
         }
     }
+
 }
