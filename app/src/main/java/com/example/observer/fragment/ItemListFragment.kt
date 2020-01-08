@@ -15,6 +15,7 @@ import androidx.room.Room
 import com.example.observer.R
 import com.example.observer.adapter.ItemListAdapter
 import com.example.observer.db.AppDatabase
+import com.example.observer.db.GetDbInstance
 import com.example.observer.model.AllegroItem
 import com.example.observer.presenter.IItemListPresenter
 import com.example.observer.presenter.ItemListPresenter
@@ -31,8 +32,7 @@ class ItemListFragment : Fragment(),ItemListView,ItemAction {
     override fun onStart() {
         super.onStart()
         val itemListPresenter:IItemListPresenter = ItemListPresenter(this)
-        itemListPresenter.onGetAllItems(Room.databaseBuilder(activity!!.applicationContext,AppDatabase::class.java,
-            "allegroitemdb1").build())
+        itemListPresenter.onGetAllItems(GetDbInstance.getDb(activity!!.applicationContext))
 
         pullToRefresh.setOnRefreshListener {
             reloadFragment()
@@ -72,8 +72,7 @@ class ItemListFragment : Fragment(),ItemListView,ItemAction {
             .setMessage("Are you sure?")
             .setPositiveButton("Yes",{dialog, which ->
 
-                val db = Room.databaseBuilder(activity!!.applicationContext,AppDatabase::class.java,
-                    "allegroitemdb1").build()
+                val db = GetDbInstance.getDb(activity!!.applicationContext)
 
                 Thread(Runnable {
                     db.allegroItemDao().deleteById(id)

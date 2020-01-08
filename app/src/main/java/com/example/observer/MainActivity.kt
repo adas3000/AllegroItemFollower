@@ -99,7 +99,7 @@ class MainActivity : AppCompatActivity(),IOnInternetView {
     }
 
     override fun onPriceChanged(item_name: String,new_price:Float,uid:Int) {
-        val db =  Room.databaseBuilder(applicationContext, AppDatabase::class.java, "allegroitemdb1").build()
+        val db =  GetDbInstance.getDb(applicationContext)
 
         Thread(Runnable {
             db.allegroItemDao().updatePrice(new_price,uid)
