@@ -22,6 +22,8 @@ class ItemListAdapter(val itemList:List<AllegroItem>,val itemAction: ItemAction)
         holder.price.setText(itemList[position].itemPrice.toString())
         holder.url.setText(itemList[position].itemURL)
 
+        itemAction.setItemImage(itemList[position].itemImgUrl.toString(),holder.item_img)
+
         holder.url.setOnClickListener {
             itemAction.onUrlClick(itemList[position].itemURL.toString())
         }
@@ -44,6 +46,7 @@ class ItemListAdapter(val itemList:List<AllegroItem>,val itemAction: ItemAction)
         val item_name = view.findViewById<TextView>(R.id.item_data_layout_textView_title)
         val price = view.findViewById<TextView>(R.id.item_data_layout_textView_price)
         val remove_img = view.findViewById<ImageView>(R.id.item_data_layout_imageView_delete)
+        val item_img = view.findViewById<ImageView>(R.id.item_data_layout_imageView_img)
     }
 
 

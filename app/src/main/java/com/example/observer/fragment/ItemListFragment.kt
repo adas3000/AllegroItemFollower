@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
+import com.bumptech.glide.Glide
 import com.example.observer.R
 import com.example.observer.adapter.ItemListAdapter
 import com.example.observer.db.AppDatabase
@@ -87,7 +88,7 @@ class ItemListFragment : Fragment(),ItemListView,ItemAction {
     }
 
     override fun setItemImage(url: String, imageView: ImageView) {
-
+            Glide.with(activity!!.applicationContext).load(url).into(imageView)
     }
 
     private fun reloadFragment(){
