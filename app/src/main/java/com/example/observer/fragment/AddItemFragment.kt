@@ -52,7 +52,7 @@ class AddItemFragment : Fragment() , IAddItemView {
         editText_item_url.setOnEditorActionListener { v, actionId, event ->
 
             when(actionId){
-                EditorInfo.IME_ACTION_SEARCH,EditorInfo.IME_ACTION_DONE,EditorInfo.IME_ACTION_PREVIOUS-> {
+                EditorInfo.IME_ACTION_SEARCH,EditorInfo.IME_ACTION_DONE -> {
                     this.onURLEditingFinished()
                     true
                 }
@@ -82,6 +82,8 @@ class AddItemFragment : Fragment() , IAddItemView {
         Thread(Runnable {
             db.allegroItemDao().insert(AllegroItem(0,title,price,editText_item_url.text.toString()))
         }).start()
+
+        Toasty.success(activity!!.applicationContext,"Added!",Toasty.LENGTH_SHORT).show()
 
     }
 
