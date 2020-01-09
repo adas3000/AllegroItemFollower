@@ -20,16 +20,15 @@ class ItemListAdapter(val itemList:List<AllegroItem>,val itemAction: ItemAction)
 
         holder.item_name.setText(itemList[position].itemName)
         holder.price.setText(itemList[position].itemPrice.toString())
-        holder.url.setText(itemList[position].itemURL)
 
         itemAction.setItemImage(itemList[position].itemImgUrl.toString(),holder.item_img)
 
-        holder.url.setOnClickListener {
-            itemAction.onUrlClick(itemList[position].itemURL.toString())
-        }
-
         holder.remove_img.setOnClickListener {
             itemAction.onRemoveClick(itemList[position].uid)
+        }
+
+        holder.item_img.setOnClickListener {
+            itemAction.onUrlClick(itemList[position].itemURL.toString())
         }
 
     }
@@ -42,7 +41,6 @@ class ItemListAdapter(val itemList:List<AllegroItem>,val itemAction: ItemAction)
 
 
     class ViewHolder(view: View):RecyclerView.ViewHolder(view){
-        val url = view.findViewById<TextView>(R.id.item_data_layout_textView_url)
         val item_name = view.findViewById<TextView>(R.id.item_data_layout_textView_title)
         val price = view.findViewById<TextView>(R.id.item_data_layout_textView_price)
         val remove_img = view.findViewById<ImageView>(R.id.item_data_layout_imageView_delete)

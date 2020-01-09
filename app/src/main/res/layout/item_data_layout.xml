@@ -34,15 +34,6 @@
     />
 
 
-    <TextView
-            android:hint="URL"
-            android:textSize="16sp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/item_data_layout_textView_url"
-
-    />
-
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -71,8 +62,8 @@
 
     <ImageView
             android:id="@+id/item_data_layout_imageView_img"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
     />
 
 
