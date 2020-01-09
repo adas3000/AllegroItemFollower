@@ -28,7 +28,7 @@
     <TextView
             android:id="@+id/item_data_layout_textView_title"
             android:hint="Title"
-            android:textSize="16sp"
+            android:textSize="21sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
     />
@@ -42,7 +42,7 @@
 
         <TextView
                 android:text="@string/actual_price_text"
-                android:textSize="16sp"
+                android:textSize="21sp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:layout_width="0dp"
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.5"
                 android:layout_width="0dp"
-                android:textSize="16sp"
+                android:textSize="21sp"
                 android:hint="Price"
         />
 
