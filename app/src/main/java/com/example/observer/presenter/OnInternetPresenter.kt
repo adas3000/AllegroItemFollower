@@ -75,7 +75,7 @@ class OnInternetPresenter : IOnInternetPresenter,IItemListPresenter,ItemProxy,II
             val float_price:Float = textToFloat(str_price)
 
             if(float_price!=allegroItem.itemPrice){
-                onInternetView.onPriceChanged(title,float_price,allegroItem.uid)
+                onInternetView.onPriceChanged(title,float_price,allegroItem.itemURL.toString(),allegroItem.uid)
             }
             //onInternetView.onPriceChanged(title,float_price,allegroItem.uid) -->> for tests
             Log.d(TAG,"price:"+float_price.toString())

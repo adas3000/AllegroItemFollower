@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity(),IOnInternetView {
 
     }
 
-    override fun onPriceChanged(item_name: String,new_price:Float,uid:Int) {
+    override fun onPriceChanged(item_name:String,new_price:Float,item_url:String,uid:Int) {
         val db =  GetDbInstance.getDb(applicationContext)
 
         Thread(Runnable {
@@ -112,7 +112,7 @@ class MainActivity : AppCompatActivity(),IOnInternetView {
         val channelId = "comexampleobserverChannel1"
 
         var builder = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.drawable.notification_icon_background)
+            .setSmallIcon(R.mipmap.ic_launcher_foreground)
             .setContentTitle("Item price changed")
             .setContentText(item_name+" price changed to "+new_price+" zł.")
             .setStyle(NotificationCompat.BigTextStyle().bigText(item_name+" price changed to "+new_price+" zł."))
