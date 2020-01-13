@@ -1,11 +1,14 @@
 package com.example.observer.service
 
-import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import android.R
+import android.app.*
+import android.content.Context
 import androidx.core.app.NotificationCompat
-import android.app.PendingIntent
+import android.graphics.Color
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.example.observer.MainActivity
 
 
@@ -29,6 +32,17 @@ class AppService : Service {
     }
 
     private fun startForeground() {
+
+        val channelId =
+            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
+            createNotificationChannel("allegro_item_follower_service x0x"
+                        ,"allegro_item_follower_background_service")
+                }
+            else ""
+
+
+
+
         val notificationIntent = Intent(this, MainActivity::class.java)
 
         val pendingIntent = PendingIntent.getActivity(
@@ -36,7 +50,7 @@ class AppService : Service {
             notificationIntent, 0
         )
 
-        startForeground(NOTIF_ID, NotificationCompat.Builder(this, NOTIF_CHANNEL_ID)
+        startForeground(NOTIF_ID, NotificationCompat.Builder(this, channelId)
                 .setOngoing(true)
                 .setSmallIcon(R.drawable.btn_default)
                 .setContentTitle("Content")
@@ -45,5 +59,20 @@ class AppService : Service {
                 .build()
         )
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun createNotificationChannel(channelId:String,channelName:String):String{
+
+        val chan = NotificationChannel(channelId,channelName,NotificationManager.IMPORTANCE_NONE)
+
+        chan.lightColor = Color.BLUE
+        chan.lockscreenVisibility = Notification.VISIBILITY_PRIVATE
+
+        val service = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        service.createNotificationChannel(chan)
+        return channelId
+    }
+
+
 
 }

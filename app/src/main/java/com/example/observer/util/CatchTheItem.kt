@@ -1,6 +1,5 @@
 package com.example.observer.util
 
-import android.util.Log
 import com.example.observer.db.AppDatabase
 import com.example.observer.presenter.IOnInternetPresenter
 
@@ -20,8 +19,8 @@ class CatchTheItem : Runnable {
     override fun run() {
 
         while(do_run){
-            Thread.sleep(10000)
             internetPresenter.onAvailable(db)
+            Thread.sleep(10000)
         }
 
     }

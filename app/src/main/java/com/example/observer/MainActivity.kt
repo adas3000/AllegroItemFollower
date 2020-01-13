@@ -62,7 +62,6 @@ class MainActivity : AppCompatActivity(),IOnInternetView {
 
             override fun onAvailable(network: Network?) {
                 Log.d(TAG, "onAvailable invoked")
-                //internetPresenter.onAvailable(GetDbInstance.getDb(applicationContext))
                 catchTheItem = CatchTheItem(internetPresenter,GetDbInstance.getDb(applicationContext),true)
                 Thread(catchTheItem).start()
             }
