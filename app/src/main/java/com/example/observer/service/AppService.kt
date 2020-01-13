@@ -16,8 +16,6 @@ import com.example.observer.MainActivity
 class AppService : Service {
 
     private val NOTIF_ID = 2
-    private val NOTIF_CHANNEL_ID = "ServiceChannel_Id"
-
 
     constructor() : super()
 
