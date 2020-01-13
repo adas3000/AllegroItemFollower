@@ -77,7 +77,7 @@ class OnInternetPresenter : IOnInternetPresenter,IItemListPresenter,ItemProxy,II
             if(float_price!=allegroItem.itemPrice){
                 onInternetView.onPriceChanged(title,float_price,allegroItem.itemURL.toString(),allegroItem.uid)
             }
-            onInternetView.onPriceChanged(title,float_price,allegroItem.itemURL.toString(),allegroItem.uid) //-->> for tests
+           // onInternetView.onPriceChanged(title,float_price,allegroItem.itemURL.toString(),allegroItem.uid) //-->> for tests
             Log.d(TAG,"price:"+float_price.toString())
             doDispose(dispose)
         }
