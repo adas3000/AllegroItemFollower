@@ -21,6 +21,7 @@ import com.example.observer.db.GetDbInstance
 import com.example.observer.presenter.IOnInternetPresenter
 import com.example.observer.presenter.OnInternetPresenter
 import com.example.observer.service.AppService
+import com.example.observer.util.CatchTheItem
 import com.example.observer.view.IOnInternetView
 import es.dmoral.toasty.Toasty
 
@@ -40,9 +41,15 @@ class MainActivity : AppCompatActivity(),IOnInternetView {
 
         val internetPresenter:IOnInternetPresenter = OnInternetPresenter(this)
 
+
+
         var networkCallback = object : ConnectivityManager.NetworkCallback() {
+
+            var catchTheItem:CatchTheItem = CatchTheItem(internetPresenter,GetDbInstance.getDb(applicationContext))
+
             override fun onLost(network: Network?) {
                 Log.d(TAG, "onLost invoked")
+                catchTheItem.do_run = false
             }
 
             override fun onUnavailable() {
@@ -55,8 +62,11 @@ class MainActivity : AppCompatActivity(),IOnInternetView {
 
             override fun onAvailable(network: Network?) {
                 Log.d(TAG, "onAvailable invoked")
-                internetPresenter.onAvailable(GetDbInstance.getDb(applicationContext))
+                //internetPresenter.onAvailable(GetDbInstance.getDb(applicationContext))
+                catchTheItem = CatchTheItem(internetPresenter,GetDbInstance.getDb(applicationContext),true)
+                Thread(catchTheItem).start()
             }
+
         }
 
         val connectivityManager = applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
