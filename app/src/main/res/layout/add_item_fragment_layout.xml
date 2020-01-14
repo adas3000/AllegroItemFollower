@@ -15,4 +15,20 @@
             android:id="@+id/editText_item_url"
     />
 
+    <LinearLayout
+            android:orientation="horizontal"
+            android:weightSum="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+    <Button
+            android:id="@+id/add_item_Button"
+            android:background="@drawable/rounded_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:text="@string/add_item_text" />
+
+    </LinearLayout>
+
 </LinearLayout>
