@@ -91,7 +91,7 @@ class ItemListFragment : Fragment(),ItemListView,ItemAction {
     override fun setItemImage(url: String, imageView: ImageView) {
             Glide.with(activity!!.applicationContext)
                 .load(url)
-                //.apply(RequestOptions.circleCropTransform())
+                .apply(RequestOptions.circleCropTransform())
                 .into(imageView)
     }
 
