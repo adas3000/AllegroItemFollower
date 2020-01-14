@@ -23,15 +23,20 @@ import com.example.observer.presenter.IOnInternetPresenter
 import com.example.observer.presenter.OnInternetPresenter
 import com.example.observer.service.AppService
 import com.example.observer.util.CatchTheItem
+import com.example.observer.util.ItemAdded
 import com.example.observer.view.IOnInternetView
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.add_item_fragment_layout.*
 
 
-class MainActivity : AppCompatActivity(),IOnInternetView {
+class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
 
     private val TAG = "MainActivity"
+    private var addingFinished = false
 
+    override fun setAdded(added: Boolean) {
+        addingFinished = added
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,7 +92,7 @@ class MainActivity : AppCompatActivity(),IOnInternetView {
         floatingActionButton3.setOnClickListener {
             val fab_fragmentTransition = supportFragmentManager.beginTransaction()
             floatingActionButton3.hide()
-            fab_fragmentTransition.replace(R.id.frameLayout_fragmentKeeper, AddItemFragment())
+            fab_fragmentTransition.replace(R.id.frameLayout_fragmentKeeper, AddItemFragment.newInstance(this))
             fab_fragmentTransition.addToBackStack(null)
             fab_fragmentTransition.commit()
         }
@@ -97,10 +102,11 @@ class MainActivity : AppCompatActivity(),IOnInternetView {
     override fun onBackPressed() {
         val count = supportFragmentManager.backStackEntryCount
 
+        if(!addingFinished) return
+
         if (count == 0) {
             super.onBackPressed()
         } else {
-            if(progressBar_addItem != null && progressBar_addItem.isVisible) return
             if (floatingActionButton3.isOrWillBeHidden) floatingActionButton3.show()
 
             supportFragmentManager.popBackStack()
