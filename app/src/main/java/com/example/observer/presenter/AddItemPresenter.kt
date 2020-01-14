@@ -17,15 +17,17 @@ import java.io.IOException
 import java.lang.NumberFormatException
 import java.lang.RuntimeException
 
-class AddItemPresenter : IAddItemPresenter,ItemProxy,IDocumentObserver {
+class AddItemPresenter : IAddItemPresenter, ItemProxy, IDocumentObserver {
 
     private val TAG = "AddItemPresenter"
 
-    val jsoupurlView:IAddItemView
+    val jsoupurlView: IAddItemView
+    val optionalItemName: String
     lateinit var disposable: Disposable
 
-    constructor(jsoupurlView:IAddItemView) {
+    constructor(jsoupurlView: IAddItemView, optionalItemName: String = "") {
         this.jsoupurlView = jsoupurlView
+        this.optionalItemName = optionalItemName
     }
 
     override fun getJsoupProxy(url: String): Observable<Document> {
@@ -52,22 +54,23 @@ class AddItemPresenter : IAddItemPresenter,ItemProxy,IDocumentObserver {
 
     }
 
-     override fun checkPriceAndFinish(document: Document) {
+    override fun checkPriceAndFinish(document: Document) {
+        val title: String
 
-         val title:String = document.selectFirst(AllegroDivInstance.Instance.title).text()
-         var str_price:String = document.selectFirst(AllegroDivInstance.Instance.div).text()
-         str_price = str_price.replace("[^0-9.]","")
-         val img_url:String = document.selectFirst(AllegroDivInstance.Instance.img).absUrl("src")
+        if (optionalItemName.length > 0) title = optionalItemName
+        else title = document.selectFirst(AllegroDivInstance.Instance.title).text()
 
-         try{
-             val float_price:Float = textToFloat(str_price)
-             Log.d(TAG,"price:"+float_price.toString())
-             jsoupurlView.onScanFinishedSuccess(title,float_price,img_url,disposable)
-         }
-         catch(e:NumberFormatException){
-             e.fillInStackTrace()
-             jsoupurlView.onError(e.message.toString(),disposable)
-         }
+        val str_price: String = document.selectFirst(AllegroDivInstance.Instance.div).text()
+        val img_url: String = document.selectFirst(AllegroDivInstance.Instance.img).absUrl("src")
+
+        try {
+            val float_price: Float = textToFloat(str_price)
+            Log.d(TAG, "price:" + float_price.toString())
+            jsoupurlView.onScanFinishedSuccess(title, float_price, img_url, disposable)
+        } catch (e: NumberFormatException) {
+            e.fillInStackTrace()
+            jsoupurlView.onError(e.message.toString(), disposable)
+        }
 
     }
 
@@ -89,8 +92,8 @@ class AddItemPresenter : IAddItemPresenter,ItemProxy,IDocumentObserver {
 
             override fun onError(e: Throwable) {
                 Log.d(TAG, "onError invoked")
-                Log.d(TAG,e.message)
-                jsoupurlView.onError(e.message.toString(),disposable)
+                Log.d(TAG, e.message)
+                jsoupurlView.onError(e.message.toString(), disposable)
             }
         }
     }

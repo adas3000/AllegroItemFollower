@@ -62,7 +62,7 @@ class AddItemFragment : Fragment(), IAddItemView {
             return
         }
 
-        AddItemPresenter(this).scanURL(url)
+        AddItemPresenter(this,editText_item_name.text.toString()).scanURL(url)
     }
 
     override fun onStart() {

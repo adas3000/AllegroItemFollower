@@ -15,9 +15,6 @@ import android.content.Context
 import android.net.*
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import androidx.core.view.isVisible
-import androidx.room.Room
-import com.example.observer.db.AppDatabase
 import com.example.observer.db.GetDbInstance
 import com.example.observer.presenter.IOnInternetPresenter
 import com.example.observer.presenter.OnInternetPresenter
@@ -26,13 +23,12 @@ import com.example.observer.util.CatchTheItem
 import com.example.observer.util.ItemAdded
 import com.example.observer.view.IOnInternetView
 import es.dmoral.toasty.Toasty
-import kotlinx.android.synthetic.main.add_item_fragment_layout.*
 
 
 class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
 
     private val TAG = "MainActivity"
-    private var addingFinished = false
+    private var addingFinished = true
 
     override fun setAdded(added: Boolean) {
         addingFinished = added
@@ -48,7 +44,7 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
 
         val internetPresenter:IOnInternetPresenter = OnInternetPresenter(this)
 
-
+        //todo fix : internet exceptions when click adding multiple times in short period of time
 
         var networkCallback = object : ConnectivityManager.NetworkCallback() {
 

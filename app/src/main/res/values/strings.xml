@@ -2,4 +2,5 @@
     <string name="app_name">Allegro Item Follower</string>
     <string name="actual_price_text">Price:</string>
     <string name="add_item_text">Add</string>
+    <string name="add_item_name_hint_text">Item name</string>
 </resources>
