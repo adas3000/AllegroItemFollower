@@ -16,7 +16,6 @@
 
     <EditText
             android:id="@+id/editText_item_url"
-            android:text="https://allegro.pl/oferta/nowy-laptop-dell-16gb-512ssd-windows10-zestaw-8840931874?fromVariant=8435495755"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
