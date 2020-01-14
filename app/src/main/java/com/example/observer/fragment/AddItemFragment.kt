@@ -49,19 +49,7 @@ class AddItemFragment : Fragment() , IAddItemView {
 
     override fun onStart() {
         super.onStart()
-
-        editText_item_url.setOnEditorActionListener { v, actionId, event ->
-
-            when(actionId){
-                EditorInfo.IME_ACTION_SEARCH,EditorInfo.IME_ACTION_DONE -> {
-                    this.onURLEditingFinished()
-                    true
-                }
-                else -> false
-            }
-
-        }
-
+        
         add_item_Button.setOnClickListener {
             onURLEditingFinished()
         }
