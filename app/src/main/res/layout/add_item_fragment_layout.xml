@@ -1,33 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
     <EditText
-            android:imeOptions="actionDone"
+            android:id="@+id/editText_item_url"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textWebEmailAddress"
-            android:hint="URL"
             android:layout_marginTop="150dp"
             android:ems="10"
-            android:id="@+id/editText_item_url"
-    />
+            android:hint="URL"
+            android:imeOptions="actionDone"
+            android:inputType="textWebEmailAddress" />
 
     <LinearLayout
-            android:orientation="horizontal"
-            android:weightSum="1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-    <Button
-            android:id="@+id/add_item_Button"
-            android:background="@drawable/rounded_button"
-            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.25"
-            android:text="@string/add_item_text" />
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+        <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.75"/>
+
+        <Button
+                android:id="@+id/add_item_Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="1dp"
+                android:layout_weight="0.25"
+                android:background="@drawable/rounded_button"
+                android:text="@string/add_item_text" />
 
     </LinearLayout>
 

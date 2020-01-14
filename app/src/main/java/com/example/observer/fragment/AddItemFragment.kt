@@ -62,6 +62,10 @@ class AddItemFragment : Fragment() , IAddItemView {
 
         }
 
+        add_item_Button.setOnClickListener {
+            onURLEditingFinished()
+        }
+
     }
 
 
