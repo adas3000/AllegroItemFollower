@@ -15,6 +15,7 @@ import android.content.Context
 import android.net.*
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.core.view.isVisible
 import androidx.room.Room
 import com.example.observer.db.AppDatabase
 import com.example.observer.db.GetDbInstance
@@ -24,6 +25,7 @@ import com.example.observer.service.AppService
 import com.example.observer.util.CatchTheItem
 import com.example.observer.view.IOnInternetView
 import es.dmoral.toasty.Toasty
+import kotlinx.android.synthetic.main.add_item_fragment_layout.*
 
 
 class MainActivity : AppCompatActivity(),IOnInternetView {
@@ -98,6 +100,7 @@ class MainActivity : AppCompatActivity(),IOnInternetView {
         if (count == 0) {
             super.onBackPressed()
         } else {
+            if(progressBar_addItem != null && progressBar_addItem.isVisible) return
             if (floatingActionButton3.isOrWillBeHidden) floatingActionButton3.show()
 
             supportFragmentManager.popBackStack()

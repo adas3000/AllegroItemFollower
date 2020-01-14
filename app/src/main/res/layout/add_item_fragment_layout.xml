@@ -6,6 +6,7 @@
 
     <EditText
             android:id="@+id/editText_item_url"
+            android:text="https://allegro.pl/oferta/nowy-laptop-dell-16gb-512ssd-windows10-zestaw-8840931874?fromVariant=8435495755"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="150dp"
@@ -22,7 +23,7 @@
 
         <View
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="0.75"/>
 
         <Button
@@ -34,7 +35,33 @@
                 android:layout_weight="0.25"
                 android:background="@drawable/rounded_button"
                 android:text="@string/add_item_text" />
+    </LinearLayout>
+
+
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:weightSum="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.85"
+                />
+
+        <ProgressBar
+                android:id="@+id/progressBar_addItem"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.15"
+                android:visibility="invisible"
+                />
 
     </LinearLayout>
+
+
+
 
 </LinearLayout>

@@ -55,7 +55,8 @@ class AddItemPresenter : IAddItemPresenter,ItemProxy,IDocumentObserver {
      override fun checkPriceAndFinish(document: Document) {
 
          val title:String = document.selectFirst(AllegroDivInstance.Instance.title).text()
-         val str_price:String = document.selectFirst(AllegroDivInstance.Instance.div).text()
+         var str_price:String = document.selectFirst(AllegroDivInstance.Instance.div).text()
+         str_price = str_price.replace("[^0-9.]","")
          val img_url:String = document.selectFirst(AllegroDivInstance.Instance.img).absUrl("src")
 
          try{

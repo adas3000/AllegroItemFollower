@@ -45,5 +45,12 @@ class FormatTextPriceTest {
         assertEquals(1159.00f, textToFloat(price_3))
     }
 
+    @Test
+    fun removeAllNonNumericChars(){
+        var price_1:String = "489,00 zł z kurierem"
+        price_1 = price_1.replace("[^0-9,]".toRegex(),"")
+
+        assertEquals("489,00",price_1)
+    }
 
 }

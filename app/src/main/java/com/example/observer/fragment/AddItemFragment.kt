@@ -51,6 +51,7 @@ class AddItemFragment : Fragment() , IAddItemView {
         super.onStart()
         
         add_item_Button.setOnClickListener {
+            progressBar_addItem.visibility = View.VISIBLE
             onURLEditingFinished()
         }
 
@@ -77,6 +78,7 @@ class AddItemFragment : Fragment() , IAddItemView {
             db.allegroItemDao().insert(allegroItem)
         }).start()
 
+        progressBar_addItem.visibility = View.INVISIBLE
         Toasty.success(activity!!.applicationContext,"Added!",Toasty.LENGTH_SHORT).show()
         //todo wait till
     }
