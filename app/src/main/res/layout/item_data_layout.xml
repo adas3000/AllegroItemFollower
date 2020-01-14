@@ -3,7 +3,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-
+        android:background="@drawable/tv_frame"
         >
 
     <LinearLayout
@@ -18,7 +18,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:clickable="true"
-                android:src="@drawable/ic_delete_black_24dp" />
+                android:src="@drawable/ic_clear_black_24dp" />
 
     </LinearLayout>
 
