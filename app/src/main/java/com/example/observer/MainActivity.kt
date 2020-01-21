@@ -50,11 +50,11 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
 
         var networkCallback = object : ConnectivityManager.NetworkCallback() {
 
-            //var catchTheItem:CatchTheItem = CatchTheItem(internetPresenter,GetDbInstance.getDb(applicationContext))
+            var catchTheItem:CatchTheItem = CatchTheItem(internetPresenter,GetDbInstance.getDb(applicationContext))
             //comment till problem with app stopping won't be fixed
             override fun onLost(network: Network?) {
                 Log.d(TAG, "onLost invoked")
-                //catchTheItem.do_run = false
+                catchTheItem.do_run = false
             }
 
             override fun onUnavailable() {
@@ -67,9 +67,9 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
 
             override fun onAvailable(network: Network?) {
                 Log.d(TAG, "onAvailable invoked")
-                internetPresenter.onAvailable(GetDbInstance.getDb(applicationContext))
-                //catchTheItem = CatchTheItem(internetPresenter,GetDbInstance.getDb(applicationContext),true)
-               // Thread(catchTheItem).start()
+//                internetPresenter.onAvailable(GetDbInstance.getDb(applicationContext))
+                catchTheItem = CatchTheItem(internetPresenter,GetDbInstance.getDb(applicationContext),true)
+                Thread(catchTheItem).start()
             }
 
         }

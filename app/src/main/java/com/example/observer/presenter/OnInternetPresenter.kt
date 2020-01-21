@@ -24,8 +24,6 @@ class OnInternetPresenter : IOnInternetPresenter, IItemListPresenter, ItemProxy,
 
     val onInternetView: IOnInternetView
     private val TAG = "OnInternetPresenter"
-    lateinit var dispose: Disposable
-
     //todo make all disposables dispose
 
     constructor(onInternetView: IOnInternetView) {
@@ -46,7 +44,6 @@ class OnInternetPresenter : IOnInternetPresenter, IItemListPresenter, ItemProxy,
     }
 
     override fun doCheck(itemList: List<AllegroItem>) {
-        doDispose(dispose)
         for (item: AllegroItem in itemList) {
             getJsoupProxy(item.itemURL.toString())
                 .subscribeOn(Schedulers.io())
@@ -62,6 +59,7 @@ class OnInternetPresenter : IOnInternetPresenter, IItemListPresenter, ItemProxy,
                 val doc = Jsoup.connect(url).get()
                 return@fromCallable doc
             } catch (e: IOException) {
+                e.fillInStackTrace()
                 throw RuntimeException(e)
             }
         }
@@ -88,7 +86,6 @@ class OnInternetPresenter : IOnInternetPresenter, IItemListPresenter, ItemProxy,
                 onInternetView.onPriceChanged(allegroItem)
             } else onInternetView.onPriceDidNotChanged(allegroItem)
             // onInternetView.onPriceChanged(title,float_price,allegroItem.itemURL.toString(),allegroItem.uid) //-->> for tests
-            doDispose(dispose)
         } catch (e: NumberFormatException) {
             e.fillInStackTrace()
             onInternetView.onError(e.message.toString())
@@ -111,7 +108,6 @@ class OnInternetPresenter : IOnInternetPresenter, IItemListPresenter, ItemProxy,
 
             override fun onSubscribe(d: Disposable) {
                 Log.d(TAG, "onSubscribed invoked")
-                dispose = d
             }
 
             override fun onError(e: Throwable) {
@@ -140,14 +136,9 @@ class OnInternetPresenter : IOnInternetPresenter, IItemListPresenter, ItemProxy,
 
             override fun onSubscribe(d: Disposable) {
                 Log.d(TAG, "on subscribe invoked")
-                dispose = d
             }
 
         }
-    }
-
-    fun doDispose(d: Disposable) {
-        d.dispose()
     }
 
 }

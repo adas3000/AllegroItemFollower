@@ -59,7 +59,7 @@ class AddItemPresenter : IAddItemPresenter, ItemProxy, IDocumentObserver {
 
         if (optionalItemName.length > 0) title = optionalItemName
         else title = document.selectFirst(AllegroDivInstance.Instance.title).text()
-
+        //todo implement expiredin and lastupdate
         val str_price: String = document.selectFirst(AllegroDivInstance.Instance.div).text()
         val img_url: String = document.selectFirst(AllegroDivInstance.Instance.img).absUrl("src")
 

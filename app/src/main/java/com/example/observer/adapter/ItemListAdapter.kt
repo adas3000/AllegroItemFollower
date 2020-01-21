@@ -18,9 +18,7 @@ class ItemListAdapter(val itemList:List<AllegroItem>,val itemAction: ItemAction)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-//        holder.item_name.setText(itemList[position].itemName+"\n"+itemList[position].itemPrice.toString()+"zł"+"\n"+itemList[position].expiredIn+"\nLast update:"+itemList[position].lastUpdate)
         holder.item_name.setText(itemAction.getString(itemList[position]))
-//        holder.price.setText(itemList[position].itemPrice.toString()+" zł")
 
         itemAction.setItemImage(itemList[position].itemImgUrl.toString(),holder.item_img)
 
