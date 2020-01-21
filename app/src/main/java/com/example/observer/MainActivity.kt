@@ -16,6 +16,7 @@ import android.net.*
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.observer.db.GetDbInstance
+import com.example.observer.model.AllegroItem
 import com.example.observer.presenter.IOnInternetPresenter
 import com.example.observer.presenter.OnInternetPresenter
 import com.example.observer.service.AppService
@@ -112,11 +113,11 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
 
     }
 
-    override fun onPriceChanged(item_name:String,new_price:Float,item_url:String,uid:Int) {
+    override fun onPriceChanged(allegroItem: AllegroItem) {
         val db =  GetDbInstance.getDb(applicationContext)
 
         Thread(Runnable {
-            db.allegroItemDao().updatePrice(new_price,uid)
+            db.allegroItemDao().updatePrice(allegroItem.itemPrice,allegroItem.uid)
         }).start()
         //todo list update if on ItemListFragment
 
@@ -128,18 +129,17 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
         var builder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.mipmap.ic_launcher_foreground)
             .setContentTitle("Item price changed")
-            .setContentText(item_name+" price changed to "+new_price+" zł.")
-            .setStyle(NotificationCompat.BigTextStyle().bigText(item_name+" price changed to "+new_price+" zł."))
+            .setContentText(allegroItem.itemName+" price changed to "+allegroItem.itemName+" zł.")
+            .setStyle(NotificationCompat.BigTextStyle().bigText(allegroItem.itemName+" price changed to "+allegroItem.itemPrice+" zł."))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         val notificationChannel: NotificationChannel = NotificationChannel(channelId, "Item price changed",
             NotificationManager.IMPORTANCE_DEFAULT)
 
-
         builder.setContentIntent(PendingIntent.getActivity(applicationContext,0,
-            Intent(Intent.ACTION_VIEW, Uri.parse(item_url)),0))
+            Intent(Intent.ACTION_VIEW, Uri.parse(allegroItem.itemURL)),0))
 
-        notificationManager?.createNotificationChannel(notificationChannel)
+        notificationManager.createNotificationChannel(notificationChannel)
         builder.setChannelId(channelId)
         notificationManager.notify(notify_id++,builder.build())
     }

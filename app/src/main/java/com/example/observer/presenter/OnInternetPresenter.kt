@@ -70,12 +70,16 @@ class OnInternetPresenter : IOnInternetPresenter,IItemListPresenter,ItemProxy,II
 
         val title:String = document.title()
         val str_price:String = document.selectFirst(AllegroDivInstance.Instance.div).text()
+        val expiredIn:String = document.selectFirst(AllegroDivInstance.Instance.expiredIn).text()
 
         try{
             val float_price:Float = textToFloat(str_price)
 
+            allegroItem.itemName = title
+            allegroItem.itemPrice = float_price
+
             if(float_price!=allegroItem.itemPrice){
-                onInternetView.onPriceChanged(title,float_price,allegroItem.itemURL.toString(),allegroItem.uid)
+                onInternetView.onPriceChanged(allegroItem)
             }
            // onInternetView.onPriceChanged(title,float_price,allegroItem.itemURL.toString(),allegroItem.uid) //-->> for tests
             Log.d(TAG,"price:"+float_price.toString())

@@ -41,13 +41,19 @@ class JsoupTest {
     @Test
     fun getExpiredDate(){
 
-        val url_1 = "https://allegro.pl/oferta/asus-r510l-i5-8875874115";
+        val url_1 = "https://allegro.pl/oferta/asus-r510l-i5-8875874115"
+        val url_2 = "https://allegro.pl/oferta/hit-lenovo-chromebook-4rdzeniowy-4gb-hdmi-bat-5h-8833258670"
 
         val doc_1 = Jsoup.connect(url_1).get()
+        val doc_2 = Jsoup.connect(url_2).get()
 
         val elem_1 = doc_1.selectFirst("div._9a071_Phfa8")
+        val elem_2 = doc_2.selectFirst("div._9a071_Phfa8")
 
         println(elem_1.text())
+        if(elem_2!=null)
+        println(elem_2.text())
+
     }
 
 }

@@ -1,6 +1,8 @@
 package com.example.observer.view
 
+import com.example.observer.model.AllegroItem
+
 interface IOnInternetView {
-    fun onPriceChanged(item_name:String,new_price:Float,item_url:String,uid:Int)
+    fun onPriceChanged(allegroItem: AllegroItem)
     fun onError(msg:String)
 }
