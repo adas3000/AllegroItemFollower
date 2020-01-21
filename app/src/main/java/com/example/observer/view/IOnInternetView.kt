@@ -4,5 +4,6 @@ import com.example.observer.model.AllegroItem
 
 interface IOnInternetView {
     fun onPriceChanged(allegroItem: AllegroItem)
+    fun onPriceDidNotChanged(allegroItem: AllegroItem)
     fun onError(msg:String)
 }

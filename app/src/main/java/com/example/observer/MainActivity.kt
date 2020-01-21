@@ -117,7 +117,7 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
         val db =  GetDbInstance.getDb(applicationContext)
 
         Thread(Runnable {
-            db.allegroItemDao().updatePrice(allegroItem.itemPrice,allegroItem.uid)
+            db.allegroItemDao().update(allegroItem)
         }).start()
         //todo list update if on ItemListFragment
 
@@ -147,6 +147,15 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
         notificationManager.createNotificationChannel(notificationChannel)
         builder.setChannelId(channelId)
         notificationManager.notify(notify_id++,builder.build())
+    }
+
+    override fun onPriceDidNotChanged(allegroItem: AllegroItem) {
+        val db =  GetDbInstance.getDb(applicationContext)
+
+        Thread(Runnable {
+            db.allegroItemDao().update(allegroItem)
+        }).start()
+
     }
 
     override fun onError(msg: String) {

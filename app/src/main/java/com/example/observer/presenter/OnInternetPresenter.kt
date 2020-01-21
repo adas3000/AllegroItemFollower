@@ -69,23 +69,21 @@ class OnInternetPresenter : IOnInternetPresenter,IItemListPresenter,ItemProxy,II
 
     override fun compareItems(allegroItem: AllegroItem, document: Document) {
 
-        val title:String = document.title()
         val str_price:String = document.selectFirst(AllegroDivInstance.Instance.div).text()
         val expiredIn:String = document.selectFirst(AllegroDivInstance.Instance.expiredIn).text()
 
         try{
             val float_price:Float = textToFloat(str_price)
 
-            allegroItem.itemName = title
-            allegroItem.itemPrice = float_price
             allegroItem.expiredIn = expiredIn
             allegroItem.lastUpdate = LocalDateTime.now().toString()
 
             if(float_price!=allegroItem.itemPrice){
+                allegroItem.itemPrice = float_price
                 onInternetView.onPriceChanged(allegroItem)
             }
+            else onInternetView.onPriceDidNotChanged(allegroItem)
            // onInternetView.onPriceChanged(title,float_price,allegroItem.itemURL.toString(),allegroItem.uid) //-->> for tests
-            Log.d(TAG,"price:"+float_price.toString())
             doDispose(dispose)
         }
         catch(e: NumberFormatException){
