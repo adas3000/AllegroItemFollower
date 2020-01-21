@@ -126,11 +126,16 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
 
         val channelId = "ObserverAllegroItems"
 
+        var msg:String = getString(R.string.msg_price_changed_text,allegroItem.itemName,allegroItem.itemPrice)
+        if(allegroItem.expiredIn!=null)
+            msg +=  getString(R.string.msg_expiredin_text,allegroItem.expiredIn)
+
+
         var builder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.mipmap.ic_launcher_foreground)
             .setContentTitle("Item price changed")
-            .setContentText(allegroItem.itemName+" price changed to "+allegroItem.itemName+" zł.")
-            .setStyle(NotificationCompat.BigTextStyle().bigText(allegroItem.itemName+" price changed to "+allegroItem.itemPrice+" zł."))
+            .setContentText(msg)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(msg))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         val notificationChannel: NotificationChannel = NotificationChannel(channelId, "Item price changed",

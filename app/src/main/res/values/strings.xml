@@ -4,4 +4,6 @@
     <string name="add_item_text">Add</string>
     <string name="add_item_name_hint_text">Item name</string>
     <string name="last_update_expired_in_text">Last update:</string>
+    <string name="msg_price_changed_text">%s price changed to %f zł</string>
+    <string name="msg_expiredin_text">Expired in:%s</string>
 </resources>
