@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
 
     private val TAG = "MainActivity"
     private var addingFinished = true
+    private var notify_id = 1
 
     override fun setAdded(added: Boolean) {
         addingFinished = added
@@ -48,11 +49,11 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
 
         var networkCallback = object : ConnectivityManager.NetworkCallback() {
 
-            var catchTheItem:CatchTheItem = CatchTheItem(internetPresenter,GetDbInstance.getDb(applicationContext))
-
+            //var catchTheItem:CatchTheItem = CatchTheItem(internetPresenter,GetDbInstance.getDb(applicationContext))
+            //comment till problem with app stopping won't be fixed
             override fun onLost(network: Network?) {
                 Log.d(TAG, "onLost invoked")
-                catchTheItem.do_run = false
+                //catchTheItem.do_run = false
             }
 
             override fun onUnavailable() {
@@ -65,8 +66,9 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
 
             override fun onAvailable(network: Network?) {
                 Log.d(TAG, "onAvailable invoked")
-                catchTheItem = CatchTheItem(internetPresenter,GetDbInstance.getDb(applicationContext),true)
-                Thread(catchTheItem).start()
+                internetPresenter.onAvailable(GetDbInstance.getDb(applicationContext))
+                //catchTheItem = CatchTheItem(internetPresenter,GetDbInstance.getDb(applicationContext),true)
+               // Thread(catchTheItem).start()
             }
 
         }
@@ -121,7 +123,7 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
         val notificationManager: NotificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        val channelId = "comexampleobserverChannel1"
+        val channelId = "ObserverAllegroItems"
 
         var builder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.mipmap.ic_launcher_foreground)
@@ -130,7 +132,7 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
             .setStyle(NotificationCompat.BigTextStyle().bigText(item_name+" price changed to "+new_price+" zł."))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
-        val notificationChannel: NotificationChannel = NotificationChannel(channelId, "channelname",
+        val notificationChannel: NotificationChannel = NotificationChannel(channelId, "Item price changed",
             NotificationManager.IMPORTANCE_DEFAULT)
 
 
@@ -139,7 +141,7 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
 
         notificationManager?.createNotificationChannel(notificationChannel)
         builder.setChannelId(channelId)
-        notificationManager.notify(1,builder.build())
+        notificationManager.notify(notify_id++,builder.build())
     }
 
     override fun onError(msg: String) {

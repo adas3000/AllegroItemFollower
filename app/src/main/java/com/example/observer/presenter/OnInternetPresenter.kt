@@ -18,7 +18,6 @@ import org.jsoup.nodes.Document
 import java.io.IOException
 import java.lang.NumberFormatException
 import java.lang.RuntimeException
-import kotlin.system.exitProcess
 
 class OnInternetPresenter : IOnInternetPresenter,IItemListPresenter,ItemProxy,IItemListObserver {
 

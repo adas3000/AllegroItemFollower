@@ -36,4 +36,18 @@ class JsoupTest {
         assertEquals("449,00 zł",elem_2.text())
         assertEquals("1 159,00 zł",elem_3.text())
     }
+
+
+    @Test
+    fun getExpiredDate(){
+
+        val url_1 = "https://allegro.pl/oferta/asus-r510l-i5-8875874115";
+
+        val doc_1 = Jsoup.connect(url_1).get()
+
+        val elem_1 = doc_1.selectFirst("div._9a071_Phfa8")
+
+        println(elem_1.text())
+    }
+
 }
