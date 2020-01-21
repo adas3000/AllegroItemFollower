@@ -41,6 +41,9 @@ class ItemListFragment : Fragment(),ItemListView,ItemAction {
         }
     }
 
+    override fun getString(item: AllegroItem):String {
+        return getString(R.string.item_content_text,item.itemName,item.itemPrice.toString(),item.expiredIn,item.lastUpdate)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.itemlist_fragment_layout,container,false)

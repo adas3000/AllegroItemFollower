@@ -5,6 +5,7 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.junit.Test
 import org.junit.Assert.*
+import java.lang.NullPointerException
 
 class JsoupTest {
 
@@ -39,6 +40,7 @@ class JsoupTest {
 
 
     @Test
+    @Throws(NullPointerException::class)
     fun getExpiredDate(){
 
         val url_1 = "https://allegro.pl/oferta/asus-r510l-i5-8875874115"
@@ -51,7 +53,7 @@ class JsoupTest {
         val elem_2 = doc_2.selectFirst("div._9a071_Phfa8")
 
         println(elem_1.text())
-        if(elem_2!=null)
+//        if(elem_2!=null)
         println(elem_2.text())
 
     }

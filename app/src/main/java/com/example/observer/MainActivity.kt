@@ -114,12 +114,7 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
     }
 
     override fun onPriceChanged(allegroItem: AllegroItem) {
-        val db =  GetDbInstance.getDb(applicationContext)
-
-        Thread(Runnable {
-            db.allegroItemDao().update(allegroItem)
-        }).start()
-        //todo list update if on ItemListFragment
+        updateItem(allegroItem)
 
         val notificationManager: NotificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -150,12 +145,15 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
     }
 
     override fun onPriceDidNotChanged(allegroItem: AllegroItem) {
+        updateItem(allegroItem)
+    }
+
+    fun updateItem(allegroItem: AllegroItem){
         val db =  GetDbInstance.getDb(applicationContext)
 
         Thread(Runnable {
             db.allegroItemDao().update(allegroItem)
         }).start()
-
     }
 
     override fun onError(msg: String) {

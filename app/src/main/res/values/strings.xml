@@ -6,4 +6,5 @@
     <string name="last_update_expired_in_text">Last update:</string>
     <string name="msg_price_changed_text">%s price changed to %f zł</string>
     <string name="msg_expiredin_text">Expired in:%s</string>
+    <string name="item_content_text">%s \n %s zł \n %s \nLast update:%s </string>
 </resources>

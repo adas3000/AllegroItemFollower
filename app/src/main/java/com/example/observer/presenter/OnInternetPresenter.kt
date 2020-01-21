@@ -20,11 +20,11 @@ import java.lang.NumberFormatException
 import java.lang.RuntimeException
 import java.time.LocalDateTime
 
-class OnInternetPresenter : IOnInternetPresenter,IItemListPresenter,ItemProxy,IItemListObserver {
+class OnInternetPresenter : IOnInternetPresenter, IItemListPresenter, ItemProxy, IItemListObserver {
 
-    val onInternetView:IOnInternetView
-    private val TAG="OnInternetPresenter"
-    lateinit var dispose:Disposable
+    val onInternetView: IOnInternetView
+    private val TAG = "OnInternetPresenter"
+    lateinit var dispose: Disposable
 
     //todo make all disposables dispose
 
@@ -47,7 +47,7 @@ class OnInternetPresenter : IOnInternetPresenter,IItemListPresenter,ItemProxy,II
 
     override fun doCheck(itemList: List<AllegroItem>) {
         doDispose(dispose)
-        for(item:AllegroItem in itemList){
+        for (item: AllegroItem in itemList) {
             getJsoupProxy(item.itemURL.toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -69,24 +69,27 @@ class OnInternetPresenter : IOnInternetPresenter,IItemListPresenter,ItemProxy,II
 
     override fun compareItems(allegroItem: AllegroItem, document: Document) {
 
-        val str_price:String = document.selectFirst(AllegroDivInstance.Instance.div).text()
-        val expiredIn:String = document.selectFirst(AllegroDivInstance.Instance.expiredIn).text()
+        val str_price: String = document.selectFirst(AllegroDivInstance.Instance.div).text()
 
-        try{
-            val float_price:Float = textToFloat(str_price)
+        var expiredIn: String? = ""
+
+        if (document.selectFirst(AllegroDivInstance.Instance.expiredIn) != null)
+            expiredIn = document.selectFirst(AllegroDivInstance.Instance.expiredIn).text()
+
+
+        try {
+            val float_price: Float = textToFloat(str_price)
 
             allegroItem.expiredIn = expiredIn
             allegroItem.lastUpdate = LocalDateTime.now().toString()
 
-            if(float_price!=allegroItem.itemPrice){
+            if (float_price != allegroItem.itemPrice) {
                 allegroItem.itemPrice = float_price
                 onInternetView.onPriceChanged(allegroItem)
-            }
-            else onInternetView.onPriceDidNotChanged(allegroItem)
-           // onInternetView.onPriceChanged(title,float_price,allegroItem.itemURL.toString(),allegroItem.uid) //-->> for tests
+            } else onInternetView.onPriceDidNotChanged(allegroItem)
+            // onInternetView.onPriceChanged(title,float_price,allegroItem.itemURL.toString(),allegroItem.uid) //-->> for tests
             doDispose(dispose)
-        }
-        catch(e: NumberFormatException){
+        } catch (e: NumberFormatException) {
             e.fillInStackTrace()
             onInternetView.onError(e.message.toString())
         }
@@ -103,7 +106,7 @@ class OnInternetPresenter : IOnInternetPresenter,IItemListPresenter,ItemProxy,II
 
             override fun onNext(t: Document) {
                 Log.d(TAG, "onNext invoked")
-                compareItems(allegroItem,t)
+                compareItems(allegroItem, t)
             }
 
             override fun onSubscribe(d: Disposable) {
@@ -113,37 +116,37 @@ class OnInternetPresenter : IOnInternetPresenter,IItemListPresenter,ItemProxy,II
 
             override fun onError(e: Throwable) {
                 Log.d(TAG, "onError invoked")
-                Log.d(TAG,e.message)
+                Log.d(TAG, e.message)
             }
         }
     }
 
     override fun getItemListObserver(): Observer<List<AllegroItem>> {
-        return object:Observer<List<AllegroItem>>{
+        return object : Observer<List<AllegroItem>> {
 
             override fun onComplete() {
                 Log.d(TAG, "onComplete invoked")
             }
 
             override fun onError(e: Throwable) {
-                Log.d(TAG,"on error invoked")
-                Log.d(TAG,e.message)
+                Log.d(TAG, "on error invoked")
+                Log.d(TAG, e.message)
             }
 
             override fun onNext(t: List<AllegroItem>) {
-                Log.d(TAG,"on next invoked")
+                Log.d(TAG, "on next invoked")
                 doCheck(t)
             }
 
             override fun onSubscribe(d: Disposable) {
-                Log.d(TAG,"on subscribe invoked")
+                Log.d(TAG, "on subscribe invoked")
                 dispose = d
             }
 
         }
     }
 
-    fun doDispose(d:Disposable){
+    fun doDispose(d: Disposable) {
         d.dispose()
     }
 
