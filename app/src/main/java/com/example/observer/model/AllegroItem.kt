@@ -22,6 +22,9 @@ class AllegroItem {
     @ColumnInfo(name="img")
     var itemImgUrl:String?=""
 
+    @ColumnInfo(name="expiredin")
+    var expiredIn:String?=""
+
     constructor(uid: Int, itemName: String, itemPrice: Float, itemURL: String) {
         this.uid = uid
         this.itemName = itemName

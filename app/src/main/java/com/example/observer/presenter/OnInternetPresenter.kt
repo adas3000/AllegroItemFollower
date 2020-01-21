@@ -77,6 +77,7 @@ class OnInternetPresenter : IOnInternetPresenter,IItemListPresenter,ItemProxy,II
 
             allegroItem.itemName = title
             allegroItem.itemPrice = float_price
+            allegroItem.expiredIn = expiredIn
 
             if(float_price!=allegroItem.itemPrice){
                 onInternetView.onPriceChanged(allegroItem)

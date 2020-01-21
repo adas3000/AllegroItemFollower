@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import com.example.observer.dao.AllegroItemDao
 import com.example.observer.model.AllegroItem
 
-@Database(entities = arrayOf(AllegroItem::class),version = 2) //todo turn into object
+@Database(entities = arrayOf(AllegroItem::class),version = 3)
 abstract class AppDatabase:RoomDatabase() {
     abstract fun allegroItemDao():AllegroItemDao
 }
