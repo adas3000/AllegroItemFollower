@@ -16,7 +16,6 @@
 
     <EditText
             android:id="@+id/editText_item_url"
-            android:text="https://allegro.pl/oferta/asus-r510l-i5-8875874115"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
