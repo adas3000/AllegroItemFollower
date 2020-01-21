@@ -18,6 +18,7 @@ import org.jsoup.nodes.Document
 import java.io.IOException
 import java.lang.NumberFormatException
 import java.lang.RuntimeException
+import java.time.LocalDateTime
 
 class OnInternetPresenter : IOnInternetPresenter,IItemListPresenter,ItemProxy,IItemListObserver {
 
@@ -78,6 +79,7 @@ class OnInternetPresenter : IOnInternetPresenter,IItemListPresenter,ItemProxy,II
             allegroItem.itemName = title
             allegroItem.itemPrice = float_price
             allegroItem.expiredIn = expiredIn
+            allegroItem.lastUpdate = LocalDateTime.now().toString()
 
             if(float_price!=allegroItem.itemPrice){
                 onInternetView.onPriceChanged(allegroItem)

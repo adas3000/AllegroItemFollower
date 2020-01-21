@@ -3,4 +3,5 @@
     <string name="actual_price_text">Price:</string>
     <string name="add_item_text">Add</string>
     <string name="add_item_name_hint_text">Item name</string>
+    <string name="last_update_expired_in_text">Last update:</string>
 </resources>
