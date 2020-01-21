@@ -82,7 +82,7 @@ class OnInternetPresenter : IOnInternetPresenter, IItemListPresenter, ItemProxy,
                 allegroItem.itemPrice = float_price
                 onInternetView.onPriceChanged(allegroItem)
             } else onInternetView.onPriceDidNotChanged(allegroItem)
-            // onInternetView.onPriceChanged(title,float_price,allegroItem.itemURL.toString(),allegroItem.uid) //-->> for tests
+//             onInternetView.onPriceChanged(allegroItem) //-->> for tests
         } catch (e: NumberFormatException) {
             e.fillInStackTrace()
             onInternetView.onError(e.message.toString())

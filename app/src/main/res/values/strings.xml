@@ -4,7 +4,7 @@
     <string name="add_item_text">Add</string>
     <string name="add_item_name_hint_text">Item name</string>
     <string name="last_update_expired_in_text">Last update:</string>
-    <string name="msg_price_changed_text">%s\nPrice changed to %0.1f zł</string>
+    <string name="msg_price_changed_text">%s\nPrice changed to %1.2f zł</string>
     <string name="msg_expiredin_text">\nExpired in:%s</string>
     <string name="item_content_text">%s \n %s zł \n %s \nLast update:%s </string>
 </resources>

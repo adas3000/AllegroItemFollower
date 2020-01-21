@@ -46,12 +46,10 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
 
         val internetPresenter:IOnInternetPresenter = OnInternetPresenter(this)
 
-        //todo fix : internet exceptions when click adding multiple times in short period of time
 
         var networkCallback = object : ConnectivityManager.NetworkCallback() {
 
             var catchTheItem:CatchTheItem = CatchTheItem(internetPresenter,GetDbInstance.getDb(applicationContext))
-            //comment till problem with app stopping won't be fixed
             override fun onLost(network: Network?) {
                 Log.d(TAG, "onLost invoked")
                 catchTheItem.do_run = false
