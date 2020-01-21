@@ -2,6 +2,7 @@ package com.example.observer.presenter
 
 import android.util.Log
 import com.example.observer.enums.AllegroDivInstance
+import com.example.observer.model.AllegroItem
 import com.example.observer.util.IDocumentObserver
 import com.example.observer.util.ItemProxy
 import com.example.observer.util.textToFloat
@@ -16,6 +17,7 @@ import org.jsoup.nodes.Document
 import java.io.IOException
 import java.lang.NumberFormatException
 import java.lang.RuntimeException
+import java.time.LocalDateTime
 
 class AddItemPresenter : IAddItemPresenter, ItemProxy, IDocumentObserver {
 
@@ -23,7 +25,6 @@ class AddItemPresenter : IAddItemPresenter, ItemProxy, IDocumentObserver {
 
     val jsoupurlView: IAddItemView
     val optionalItemName: String
-    lateinit var disposable: Disposable
 
     constructor(jsoupurlView: IAddItemView, optionalItemName: String = "") {
         this.jsoupurlView = jsoupurlView
@@ -60,16 +61,25 @@ class AddItemPresenter : IAddItemPresenter, ItemProxy, IDocumentObserver {
         if (optionalItemName.length > 0) title = optionalItemName
         else title = document.selectFirst(AllegroDivInstance.Instance.title).text()
         //todo implement expiredin and lastupdate
-        val str_price: String = document.selectFirst(AllegroDivInstance.Instance.div).text()
-        val img_url: String = document.selectFirst(AllegroDivInstance.Instance.img).absUrl("src")
+        val strPrice: String = document.selectFirst(AllegroDivInstance.Instance.div).text()
+        val imgUrl: String = document.selectFirst(AllegroDivInstance.Instance.img).absUrl("src")
+
+        var expiredIn: String? = ""
+        if (document.selectFirst(AllegroDivInstance.Instance.expiredIn) != null)
+            expiredIn = document.selectFirst(AllegroDivInstance.Instance.expiredIn).text()
 
         try {
-            val float_price: Float = textToFloat(str_price)
-            Log.d(TAG, "price:" + float_price.toString())
-            jsoupurlView.onScanFinishedSuccess(title, float_price, img_url, disposable)
+            val floatPrice: Float = textToFloat(strPrice)
+            val allegroItem:AllegroItem = AllegroItem(0,title,floatPrice,document.location())
+            allegroItem.itemImgUrl = imgUrl
+            allegroItem.expiredIn = expiredIn
+            allegroItem.lastUpdate = LocalDateTime.now().toString()
+
+
+            jsoupurlView.onScanFinishedSuccess(allegroItem)
         } catch (e: NumberFormatException) {
             e.fillInStackTrace()
-            jsoupurlView.onError(e.message.toString(), disposable)
+            jsoupurlView.onError(e.message.toString())
         }
 
     }
@@ -87,13 +97,12 @@ class AddItemPresenter : IAddItemPresenter, ItemProxy, IDocumentObserver {
 
             override fun onSubscribe(d: Disposable) {
                 Log.d(TAG, "onSubscribed invoked")
-                disposable = d
             }
 
             override fun onError(e: Throwable) {
                 Log.d(TAG, "onError invoked")
                 Log.d(TAG, e.message)
-                jsoupurlView.onError(e.message.toString(), disposable)
+                jsoupurlView.onError(e.message.toString())
             }
         }
     }

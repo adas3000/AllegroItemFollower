@@ -52,8 +52,10 @@ class JsoupTest {
         val elem_1 = doc_1.selectFirst("div._9a071_Phfa8")
         val elem_2 = doc_2.selectFirst("div._9a071_Phfa8")
 
+        println(doc_1.location())
+
         println(elem_1.text())
-//        if(elem_2!=null)
+        if(elem_2!=null)
         println(elem_2.text())
 
     }

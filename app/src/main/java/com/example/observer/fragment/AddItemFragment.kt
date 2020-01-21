@@ -87,9 +87,8 @@ class AddItemFragment : Fragment(), IAddItemView {
         return inflater.inflate(R.layout.add_item_fragment_layout, container, false)
     }
 
-    override fun onError(msg: String, disposable: Disposable) {
+    override fun onError(msg: String) {
         Toasty.error(activity!!.applicationContext, msg, Toasty.LENGTH_SHORT).show()
-        disposable.dispose()
     }
 
     override fun onAttach(context: Context) {
@@ -97,12 +96,9 @@ class AddItemFragment : Fragment(), IAddItemView {
         db = GetDbInstance.getDb(context)
     }
 
-    override fun onScanFinishedSuccess(title: String, price: Float, img_url: String, disposable: Disposable) {
-        disposable.dispose()
+    override fun onScanFinishedSuccess(allegroItem: AllegroItem) {
 
         Thread(Runnable {
-            val allegroItem = AllegroItem(0, title, price, editText_item_url.text.toString())
-            allegroItem.itemImgUrl = img_url
             db.allegroItemDao().insert(allegroItem)
         }).start()
 

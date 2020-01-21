@@ -24,7 +24,6 @@ class OnInternetPresenter : IOnInternetPresenter, IItemListPresenter, ItemProxy,
 
     val onInternetView: IOnInternetView
     private val TAG = "OnInternetPresenter"
-    //todo make all disposables dispose
 
     constructor(onInternetView: IOnInternetView) {
         this.onInternetView = onInternetView
@@ -39,8 +38,6 @@ class OnInternetPresenter : IOnInternetPresenter, IItemListPresenter, ItemProxy,
 
     override fun onAvailable(db: AppDatabase) {
         onGetAllItems(db)
-        //1.findAll
-        //2.checkAll using Jsoup if price is different from current notify
     }
 
     override fun doCheck(itemList: List<AllegroItem>) {

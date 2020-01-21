@@ -1,8 +1,9 @@
 package com.example.observer.view
 
+import com.example.observer.model.AllegroItem
 import io.reactivex.disposables.Disposable
 
 interface IAddItemView {
-    fun onError(msg:String,disposable:Disposable)
-    fun onScanFinishedSuccess(title:String,price:Float,img_url:String,disposable:Disposable)
+    fun onError(msg:String)
+    fun onScanFinishedSuccess(allegroItem: AllegroItem)
 }
