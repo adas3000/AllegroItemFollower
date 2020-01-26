@@ -20,7 +20,7 @@ class CatchTheItem : Runnable {
 
         while(do_run){
             internetPresenter.onAvailable(db)
-            Thread.sleep(10000)
+            Thread.sleep(10000*6*10) //checking one time for 10 minutes
         }
 
     }
