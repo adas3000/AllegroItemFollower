@@ -11,14 +11,13 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Room
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.example.observer.R
 import com.example.observer.adapter.ItemListAdapter
+import com.example.observer.component.DaggerMainActivityComponent
 import com.example.observer.db.AppDatabase
-import com.example.observer.db.GetDbInstance
 import com.example.observer.model.AllegroItem
+import com.example.observer.module.MainActivityModule
 import com.example.observer.presenter.IItemListPresenter
 import com.example.observer.presenter.ItemListPresenter
 import com.example.observer.util.ItemAction
@@ -26,17 +25,22 @@ import com.example.observer.view.ItemListView
 import es.dmoral.toasty.Toasty
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.itemlist_fragment_layout.*
-import javax.inject.Inject
 
 class ItemListFragment : Fragment(),ItemListView,ItemAction {
 
-    @Inject
     lateinit var db:AppDatabase
 
     override fun onStart() {
         super.onStart()
+
+        db = DaggerMainActivityComponent
+                .builder()
+                .mainActivityModule(MainActivityModule(context!!.applicationContext))
+                .build()
+                .getDatabaseInstance()
+
         val itemListPresenter:IItemListPresenter = ItemListPresenter(this)
-        itemListPresenter.onGetAllItems(GetDbInstance.getDb(activity!!.applicationContext))
+        itemListPresenter.onGetAllItems(db)
 
         pullToRefresh.setOnRefreshListener {
             reloadFragment()

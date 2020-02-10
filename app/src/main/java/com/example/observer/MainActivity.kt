@@ -15,9 +15,10 @@ import android.content.Context
 import android.net.*
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.example.observer.component.DaggerMainActivityComponent
 import com.example.observer.db.AppDatabase
-import com.example.observer.db.GetDbInstance
 import com.example.observer.model.AllegroItem
+import com.example.observer.module.MainActivityModule
 import com.example.observer.presenter.IOnInternetPresenter
 import com.example.observer.presenter.OnInternetPresenter
 import com.example.observer.service.AppService
@@ -25,18 +26,18 @@ import com.example.observer.util.CatchTheItem
 import com.example.observer.util.ItemAdded
 import com.example.observer.view.IOnInternetView
 import es.dmoral.toasty.Toasty
-import javax.inject.Inject
 
 
 class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
+
+    lateinit var db:AppDatabase
+
 
     private val TAG = "MainActivity"
     private var addingFinished = true
 
     private var notifyId = 1
 
-    @Inject
-    lateinit var db:AppDatabase
 
     override fun setAdded(added: Boolean) {
         addingFinished = added
@@ -47,9 +48,11 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
         setContentView(R.layout.activity_main)
         //todo rotation in add showing recycler view also fixx
 
-//        db = DaggerMainActivityComponent.builder().mainActivityModule(MainActivityModule(this)).build().getDatabaseInstance()
-
-        MyApplication().component.inject(this)
+        db = DaggerMainActivityComponent
+                .builder()
+                .mainActivityModule(MainActivityModule(this))
+                .build()
+                .getDatabaseInstance()
 
         val intentRunInBackground = Intent(this,AppService::class.java)
         this.startService(intentRunInBackground)
@@ -76,7 +79,7 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
             override fun onAvailable(network: Network?) {
                 Log.d(TAG, "onAvailable invoked")
 //                internetPresenter.onAvailable(GetDbInstance.getDb(applicationContext))
-                catchTheItem = CatchTheItem(internetPresenter,GetDbInstance.getDb(applicationContext),true)
+                catchTheItem = CatchTheItem(internetPresenter,db,true)
                 Thread(catchTheItem).start()
             }
 
