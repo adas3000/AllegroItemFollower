@@ -12,5 +12,8 @@
     <string name="item_price_changed_title_notify">Item price changed</string>
     <string name="edit_text_item_url_text">URL</string>
 
+    <string name="app_background_notification_content_text">Follow your items</string>
+    <string name="app_background_notification_title_text">Check your items</string>
+
 
 </resources>

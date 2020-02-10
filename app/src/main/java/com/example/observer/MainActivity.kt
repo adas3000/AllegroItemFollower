@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
 
     private val TAG = "MainActivity"
     private var addingFinished = true
-    private var notify_id = 1
+    private var notifyId = 1
 
     override fun setAdded(added: Boolean) {
         addingFinished = added
@@ -40,14 +40,14 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val intent_run_in_background = Intent(this,AppService::class.java)
-        this.startService(intent_run_in_background)
+        val intentRunInBackground = Intent(this,AppService::class.java)
+        this.startService(intentRunInBackground)
 
 
         val internetPresenter:IOnInternetPresenter = OnInternetPresenter(this)
 
 
-        var networkCallback = object : ConnectivityManager.NetworkCallback() {
+        val networkCallback = object : ConnectivityManager.NetworkCallback() {
 
             var catchTheItem:CatchTheItem = CatchTheItem(internetPresenter,GetDbInstance.getDb(applicationContext))
             override fun onLost(network: Network?) {
@@ -139,7 +139,7 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
 
         notificationManager.createNotificationChannel(notificationChannel)
         builder.setChannelId(channelId)
-        notificationManager.notify(notify_id++,builder.build())
+        notificationManager.notify(notifyId++,builder.build())
     }
 
     override fun onPriceDidNotChanged(allegroItem: AllegroItem) {

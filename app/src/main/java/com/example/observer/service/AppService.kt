@@ -2,7 +2,6 @@ package com.example.observer.service
 
 import android.content.Intent
 import android.os.IBinder
-import android.R
 import android.app.*
 import android.content.Context
 import androidx.core.app.NotificationCompat
@@ -10,14 +9,22 @@ import android.graphics.Color
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.observer.MainActivity
-
+import com.example.observer.R
 
 
 class AppService : Service {
 
-    private val NOTIF_ID = 2
 
-    constructor() : super()
+
+    private val notifyId = 2
+
+    lateinit var notifyTitle:String
+    lateinit var notifyContent:String
+
+
+
+
+    constructor():super()
 
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -26,10 +33,13 @@ class AppService : Service {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         startForeground()
-        return Service.START_NOT_STICKY
+        return START_NOT_STICKY
     }
 
     private fun startForeground() {
+
+        notifyTitle = resources.getString(R.string.app_background_notification_title_text)
+        notifyContent =resources.getString(R.string.app_background_notification_content_text)
 
         val channelId =
             if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
@@ -39,8 +49,6 @@ class AppService : Service {
             else ""
 
 
-
-
         val notificationIntent = Intent(this, MainActivity::class.java)
 
         val pendingIntent = PendingIntent.getActivity(
@@ -48,11 +56,11 @@ class AppService : Service {
             notificationIntent, 0
         )
 
-        startForeground(NOTIF_ID, NotificationCompat.Builder(this, channelId)
+        startForeground(notifyId, NotificationCompat.Builder(this, channelId)
                 .setOngoing(true)
-                .setSmallIcon(R.drawable.btn_default)
-                .setContentTitle("Content")
-                .setContentText("Service is running background")
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle(notifyTitle)
+                .setContentText(notifyContent)
                 .setContentIntent(pendingIntent)
                 .build()
         )
