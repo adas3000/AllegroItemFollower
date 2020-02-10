@@ -4,7 +4,6 @@ import android.util.Log
 import com.example.observer.db.AppDatabase
 import com.example.observer.enums.AllegroDivInstance
 import com.example.observer.model.AllegroItem
-import com.example.observer.util.IItemListObserver
 import com.example.observer.util.ItemProxy
 import com.example.observer.util.textToFloat
 import com.example.observer.view.IOnInternetView
@@ -23,7 +22,7 @@ import java.lang.RuntimeException
 import java.time.LocalDateTime
 
 class OnInternetPresenterFix(val onInternetView: IOnInternetView) :
-        IOnInternetPresenter, IItemListPresenter, ItemProxy, IItemListObserver {
+        IOnInternetPresenter, IItemListPresenter, ItemProxy {
 
 
     private val TAG = "OnInternetPresenterFix"
@@ -40,11 +39,6 @@ class OnInternetPresenterFix(val onInternetView: IOnInternetView) :
                     doCheck(it)
                 }).addTo(disposable)
     }
-
-    override fun onAvailable(db: AppDatabase) {
-        onGetAllItems(db)
-    }
-
 
     override fun doCheck(itemList: List<AllegroItem>) {
 
@@ -135,33 +129,6 @@ class OnInternetPresenterFix(val onInternetView: IOnInternetView) :
         } catch (e: NumberFormatException) {
             e.fillInStackTrace()
             onInternetView.onError(e.message.toString())
-        }
-
-
-    }
-
-    override fun getItemListObserver(): Observer<List<AllegroItem>> {
-        return object : Observer<List<AllegroItem>> {
-
-            override fun onComplete() {
-                Log.d(TAG, "onComplete invoked")
-            }
-
-            override fun onError(e: Throwable) {
-                Log.d(TAG, "on error invoked")
-                Log.d(TAG, e.message.toString())
-            }
-
-            override fun onNext(t: List<AllegroItem>) {
-                Log.d(TAG, "on next invoked")
-                doCheck(t)
-            }
-
-            override fun onSubscribe(d: Disposable) {
-                disposable.add(d)
-                Log.d(TAG, "on subscribe invoked")
-            }
-
         }
     }
 
