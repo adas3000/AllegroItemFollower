@@ -137,7 +137,7 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
             msg +=  getString(R.string.msg_expiredin_text,allegroItem.expiredIn)
 
 
-        var builder = NotificationCompat.Builder(this, channelId)
+        val builder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.mipmap.ic_launcher_foreground)
             .setContentTitle(getString(R.string.item_price_changed_title_notify))
             .setContentText(msg)
