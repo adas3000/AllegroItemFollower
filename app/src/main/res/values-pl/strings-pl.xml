@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Allegro Item Follower</string>
+    <string name="actual_price_text">Cena:</string>
+    <string name="add_item_text">Dodaj</string>
+    <string name="add_item_name_hint_text">Nazwa przedmiotu</string>
+    <string name="last_update_expired_in_text">Ostatnia aktualizacja:</string>
+    <string name="msg_price_changed_text">%s\nZmiana ceny do %1.2f zł</string>
+    <string name="msg_expiredin_text">\nKoniec aukcji za:%s</string>
+    <string name="item_content_text">%s \n %s zł \n %s \nOstatnia aktualizacja:%s </string>
+
+
+    <string name="item_price_changed_title_notify">Cena przedmiotu się zmieniła</string>
+    <string name="edit_text_item_url_text">Link</string>
+
+    <string name="app_background_notification_content_text">Śledź swoje przedmioty</string>
+    <string name="app_background_notification_title_text">Sprawdź swoje przedmioty</string>
+
+
+</resources>
