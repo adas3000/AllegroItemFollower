@@ -78,7 +78,6 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
 
             override fun onAvailable(network: Network?) {
                 Log.d(TAG, "onAvailable invoked")
-//                internetPresenter.onAvailable(GetDbInstance.getDb(applicationContext))
                 catchTheItem = CatchTheItem(internetPresenter,db,true)
                 Thread(catchTheItem).start()
             }
@@ -167,12 +166,6 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
 
     override fun onError(msg: String) {
         Toasty.error(this,msg,Toasty.LENGTH_SHORT).show()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-        super.onSaveInstanceState(outState, outPersistentState)
-
-
     }
 
 }
