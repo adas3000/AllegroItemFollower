@@ -15,8 +15,15 @@ import android.content.Context
 import android.net.*
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.room.Room
+import com.example.observer.component.DaggerMainActivityComponent
+import com.example.observer.db.AppDatabase
 import com.example.observer.db.GetDbInstance
+import com.example.observer.migrations.Migration_1
+import com.example.observer.migrations.Migration_2
+import com.example.observer.migrations.Migration_3
 import com.example.observer.model.AllegroItem
+import com.example.observer.module.MainActivityModule
 import com.example.observer.presenter.IOnInternetPresenter
 import com.example.observer.presenter.OnInternetPresenter
 import com.example.observer.service.AppService
@@ -30,6 +37,7 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
 
     private val TAG = "MainActivity"
     private var addingFinished = true
+
     private var notifyId = 1
 
     override fun setAdded(added: Boolean) {
@@ -40,9 +48,13 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        DaggerMainActivityComponent.builder()
+                .build()
+                .inject(applicationContext)
+
+
         val intentRunInBackground = Intent(this,AppService::class.java)
         this.startService(intentRunInBackground)
-
 
         val internetPresenter:IOnInternetPresenter = OnInternetPresenter(this)
 
