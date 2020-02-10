@@ -142,7 +142,7 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
             .setStyle(NotificationCompat.BigTextStyle().bigText(msg))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
-        val notificationChannel: NotificationChannel = NotificationChannel(channelId, getString(R.string.item_price_changed_title_notify),
+        val notificationChannel = NotificationChannel(channelId, getString(R.string.item_price_changed_title_notify),
             NotificationManager.IMPORTANCE_DEFAULT)
 
         builder.setContentIntent(PendingIntent.getActivity(applicationContext,0,
