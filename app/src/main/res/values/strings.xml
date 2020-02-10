@@ -7,4 +7,10 @@
     <string name="msg_price_changed_text">%s\nPrice changed to %1.2f zł</string>
     <string name="msg_expiredin_text">\nExpired in:%s</string>
     <string name="item_content_text">%s \n %s zł \n %s \nLast update:%s </string>
+
+
+    <string name="item_price_changed_title_notify">Item price changed</string>
+    <string name="edit_text_item_url_text">URL</string>
+
+
 </resources>

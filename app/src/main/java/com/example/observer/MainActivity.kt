@@ -126,12 +126,12 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
 
         var builder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.mipmap.ic_launcher_foreground)
-            .setContentTitle("Item price changed")
+            .setContentTitle(getString(R.string.item_price_changed_title_notify))
             .setContentText(msg)
             .setStyle(NotificationCompat.BigTextStyle().bigText(msg))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
-        val notificationChannel: NotificationChannel = NotificationChannel(channelId, "Item price changed",
+        val notificationChannel: NotificationChannel = NotificationChannel(channelId, getString(R.string.item_price_changed_title_notify),
             NotificationManager.IMPORTANCE_DEFAULT)
 
         builder.setContentIntent(PendingIntent.getActivity(applicationContext,0,
