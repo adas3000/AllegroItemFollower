@@ -8,30 +8,31 @@ import com.example.observer.migrations.Migration_2
 import com.example.observer.migrations.Migration_3
 import dagger.Module
 import dagger.Provides
-import javax.inject.Named
+import javax.inject.Singleton
 
 @Module
 class MainActivityModule {
 
-    val database: AppDatabase
-
+    val context:Context
+    val dbName="allegroitemdb1"
 
     constructor(context: Context) {
-        this.database = Room.databaseBuilder(context, AppDatabase::class.java, "allegroitemdb1")
+        this.context = context
+    }
+
+
+    @Provides
+    @Singleton
+    fun getDatabaseInstance():AppDatabase{
+        return Room.databaseBuilder(context, AppDatabase::class.java, dbName)
                 .addMigrations(Migration_1, Migration_2, Migration_3)
                 .build()
     }
 
     @Provides
-    fun getDatabaseInstance():AppDatabase{
-        return database
+    @Singleton
+    fun getDatabaseName():String{
+        return dbName
     }
-
-//    @Provides
-//    @Named("notifyid")
-//    fun providesNotifyId(): Int {
-//        return 1
-//    }
-
 
 }

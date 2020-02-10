@@ -26,10 +26,12 @@ import com.example.observer.view.ItemListView
 import es.dmoral.toasty.Toasty
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.itemlist_fragment_layout.*
+import javax.inject.Inject
 
 class ItemListFragment : Fragment(),ItemListView,ItemAction {
 
-
+    @Inject
+    lateinit var db:AppDatabase
 
     override fun onStart() {
         super.onStart()
@@ -76,8 +78,6 @@ class ItemListFragment : Fragment(),ItemListView,ItemAction {
             .setTitle("Remove")
             .setMessage("Are you sure?")
             .setPositiveButton("Yes",{dialog, which ->
-
-                val db = GetDbInstance.getDb(activity!!.applicationContext)
 
                 Thread(Runnable {
                     db.allegroItemDao().deleteById(id)

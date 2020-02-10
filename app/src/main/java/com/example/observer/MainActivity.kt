@@ -15,15 +15,9 @@ import android.content.Context
 import android.net.*
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import androidx.room.Room
-import com.example.observer.component.DaggerMainActivityComponent
 import com.example.observer.db.AppDatabase
 import com.example.observer.db.GetDbInstance
-import com.example.observer.migrations.Migration_1
-import com.example.observer.migrations.Migration_2
-import com.example.observer.migrations.Migration_3
 import com.example.observer.model.AllegroItem
-import com.example.observer.module.MainActivityModule
 import com.example.observer.presenter.IOnInternetPresenter
 import com.example.observer.presenter.OnInternetPresenter
 import com.example.observer.service.AppService
@@ -31,6 +25,7 @@ import com.example.observer.util.CatchTheItem
 import com.example.observer.util.ItemAdded
 import com.example.observer.view.IOnInternetView
 import es.dmoral.toasty.Toasty
+import javax.inject.Inject
 
 
 class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
@@ -40,6 +35,9 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
 
     private var notifyId = 1
 
+    @Inject
+    lateinit var db:AppDatabase
+
     override fun setAdded(added: Boolean) {
         addingFinished = added
     }
@@ -47,11 +45,11 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        //todo rotation in add showing recycler view also fixx
 
-        DaggerMainActivityComponent.builder()
-                .build()
-                .inject(applicationContext)
+//        db = DaggerMainActivityComponent.builder().mainActivityModule(MainActivityModule(this)).build().getDatabaseInstance()
 
+        MyApplication().component.inject(this)
 
         val intentRunInBackground = Intent(this,AppService::class.java)
         this.startService(intentRunInBackground)
@@ -61,7 +59,7 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
 
         val networkCallback = object : ConnectivityManager.NetworkCallback() {
 
-            var catchTheItem:CatchTheItem = CatchTheItem(internetPresenter,GetDbInstance.getDb(applicationContext))
+            var catchTheItem:CatchTheItem = CatchTheItem(internetPresenter,db)
             override fun onLost(network: Network?) {
                 Log.d(TAG, "onLost invoked")
                 catchTheItem.do_run = false
@@ -159,7 +157,6 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
     }
 
     fun updateItem(allegroItem: AllegroItem){
-        val db =  GetDbInstance.getDb(applicationContext)
 
         Thread(Runnable {
             db.allegroItemDao().update(allegroItem)
