@@ -22,6 +22,7 @@ import com.example.observer.model.AllegroItem
 import com.example.observer.module.MainActivityModule
 import com.example.observer.presenter.IOnInternetPresenter
 import com.example.observer.presenter.OnInternetPresenter
+import com.example.observer.presenter.OnInternetPresenterFix
 import com.example.observer.service.AppService
 import com.example.observer.util.CatchTheItem
 import com.example.observer.util.ItemAdded
@@ -57,7 +58,7 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
         val intentRunInBackground = Intent(this,AppService::class.java)
         this.startService(intentRunInBackground)
 
-        val internetPresenter:IOnInternetPresenter = OnInternetPresenter(this)
+        val internetPresenter:IOnInternetPresenter = OnInternetPresenterFix(this)
 
 
         val networkCallback = object : ConnectivityManager.NetworkCallback() {
