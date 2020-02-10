@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.observer.db.AppDatabase
 import com.example.observer.enums.AllegroDivInstance
 import com.example.observer.model.AllegroItem
+import com.example.observer.model.CompareObject
 import com.example.observer.util.ItemProxy
 import com.example.observer.util.textToFloat
 import com.example.observer.view.IOnInternetView
@@ -46,54 +47,32 @@ class OnInternetPresenter(val onInternetView: IOnInternetView) :
 
     override fun doCheck(itemList: List<AllegroItem>) {
 
-        val itemObservable: Observable<AllegroItem> = Observable
+        val itemObservable: Observable<CompareObject> = Observable
                 .fromIterable(itemList)
                 .subscribeOn(Schedulers.io())
+                .map{
+                    return@map CompareObject(Jsoup.connect(it.itemURL.toString()).get(),it)
+                }
                 .observeOn(AndroidSchedulers.mainThread())
 
-
-        itemObservable.subscribe(object : Observer<AllegroItem> {
+        itemObservable.subscribe(object:Observer<CompareObject>{
             override fun onComplete() {
-                Log.d(TAG, "OnComplete invoked")
-            }
-
-            override fun onError(e: Throwable) {
-                Log.d(TAG, "OnError invoked:" + e.message)
-            }
-
-            override fun onNext(t: AllegroItem) {
-                Log.d(TAG, "onNext invoked:" + t.itemName)
-
-                val docObservable: Observable<Document> = getJsoupProxy(t.itemURL.toString())
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-
-                val item = t
-                docObservable.subscribe(object : Observer<Document> {
-                    override fun onNext(t: Document) {
-                        Log.d(TAG, "onNext invoked into docObservable")
-                        compareItems(item, t)
-                    }
-
-                    override fun onComplete() {
-                        Log.d(TAG,"docObserver onComplete invoked:")
-                    }
-
-                    override fun onError(e: Throwable) {
-                        Log.d(TAG,"docObserver error invoked:"+e.message.toString())
-                    }
-
-                    override fun onSubscribe(d: Disposable) {
-                        disposable.add(d)
-                    }
-                })
-
+                Log.d(TAG,"itemobservable onComplete invoked")
             }
 
             override fun onSubscribe(d: Disposable) {
                 disposable.add(d)
             }
+
+            override fun onNext(t: CompareObject) {
+                compareItems(t.allegroItem,t.document)
+            }
+
+            override fun onError(e: Throwable) {
+                Log.d(TAG,"itemobservable onError invoked:"+e.message.toString())
+            }
         })
+
 
     }
 
