@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import android.content.Intent
 import android.content.Context
 import android.net.*
+import android.os.PersistableBundle
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.observer.component.DaggerMainActivityComponent
@@ -46,7 +47,6 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //todo rotation in add showing recycler view also fixx
 
         db = DaggerMainActivityComponent
                 .builder()
@@ -93,7 +93,6 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
         connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
 
 
-        val supportFragmentManager: FragmentManager = supportFragmentManager
         val fragmentTransition: FragmentTransaction = supportFragmentManager.beginTransaction()
 
         fragmentTransition.add(R.id.frameLayout_fragmentKeeper, ItemListFragment())
@@ -168,6 +167,12 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
 
     override fun onError(msg: String) {
         Toasty.error(this,msg,Toasty.LENGTH_SHORT).show()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        super.onSaveInstanceState(outState, outPersistentState)
+
+
     }
 
 }
