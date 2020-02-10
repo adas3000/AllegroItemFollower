@@ -5,7 +5,6 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.observer.fragment.AddItemFragment
 import com.example.observer.fragment.ItemListFragment
@@ -13,7 +12,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import android.content.Intent
 import android.content.Context
 import android.net.*
-import android.os.PersistableBundle
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.observer.component.DaggerMainActivityComponent
@@ -22,7 +20,6 @@ import com.example.observer.model.AllegroItem
 import com.example.observer.module.MainActivityModule
 import com.example.observer.presenter.IOnInternetPresenter
 import com.example.observer.presenter.OnInternetPresenter
-import com.example.observer.presenter.OnInternetPresenterFix
 import com.example.observer.service.AppService
 import com.example.observer.util.CatchTheItem
 import com.example.observer.util.ItemAdded
@@ -58,7 +55,7 @@ class MainActivity : AppCompatActivity(),IOnInternetView,ItemAdded {
         val intentRunInBackground = Intent(this,AppService::class.java)
         this.startService(intentRunInBackground)
 
-        val internetPresenter:IOnInternetPresenter = OnInternetPresenterFix(this)
+        val internetPresenter:IOnInternetPresenter = OnInternetPresenter(this)
 
 
         val networkCallback = object : ConnectivityManager.NetworkCallback() {

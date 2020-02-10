@@ -21,14 +21,18 @@ import java.lang.NumberFormatException
 import java.lang.RuntimeException
 import java.time.LocalDateTime
 
-class OnInternetPresenterFix(val onInternetView: IOnInternetView) :
+class OnInternetPresenter(val onInternetView: IOnInternetView) :
         IOnInternetPresenter, IItemListPresenter, ItemProxy {
 
 
-    private val TAG = "OnInternetPresenterFix"
+    private val TAG = "OnInternetPresenter"
 
     private val disposable = CompositeDisposable()
 
+
+    override fun onAvailable(db: AppDatabase) {
+        onGetAllItems(db)
+    }
 
     override fun onGetAllItems(db: AppDatabase) {
         db.allegroItemDao()
@@ -124,7 +128,7 @@ class OnInternetPresenterFix(val onInternetView: IOnInternetView) :
                 allegroItem.itemPrice = floatPrice
                 onInternetView.onPriceChanged(allegroItem)
             } else onInternetView.onPriceDidNotChanged(allegroItem)
-            onInternetView.onPriceChanged(allegroItem) //-->> for tests
+//            onInternetView.onPriceChanged(allegroItem) //-->> for tests
             disposable.clear()
         } catch (e: NumberFormatException) {
             e.fillInStackTrace()
